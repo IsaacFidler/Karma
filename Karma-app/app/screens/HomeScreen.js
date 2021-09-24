@@ -50,7 +50,8 @@ const homeScreen = () => {
             startDate,
             endDate,
             duration,
-            description
+            description,
+
           })
         });
 

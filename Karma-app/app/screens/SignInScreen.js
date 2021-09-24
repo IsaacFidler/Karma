@@ -1,14 +1,16 @@
 import React from "react";
 import {View, Text, StyleSheet, Button, TextInput} from "react-native";
 import {useForm, Controller} from 'react-hook-form';
+import Buttons from '../components/Buttons';
 
 export default SignIn = ({navigation}) => {
   const {control, handleSubmit, formState: {errors}} = useForm();
   const onSubmit = data => console.log(data);
 
   return (
-    <View>
-      <View>
+    <View style={styles.container}>
+      <Text style={styles.welcome}>Welcome Back!</Text>
+      <View >
         <Controller
           control={control}
           name="email"
@@ -37,7 +39,7 @@ export default SignIn = ({navigation}) => {
             />
           )}
         />
-        <Button style={styles.button} title='LOGIN' onPress={() => {
+        <Buttons label="LOGIN" style={styles.button} title='LOGIN' onPress={() => {
 
           console.log('signin')
           navigation.push("HomeScreen")
@@ -60,6 +62,12 @@ export default SignIn = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ebebeb'
+  },
   input: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -67,9 +75,22 @@ const styles = StyleSheet.create({
     width: 300,
     paddingHorizontal: 5,
     backgroundColor: 'white',
-    marginBottom: 5,
+    marginBottom: 30,
 
   },
+
+  inputContainer: {
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+  },
+
   button: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -90,5 +111,9 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
     elevation: 4,
   },
+  welcome: {
+    top: -50
+  },
   error: {textAlign: 'center', height: 17.5},
 });
+

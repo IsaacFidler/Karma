@@ -1,15 +1,17 @@
 import React, {useState} from 'react';
-import {View, Text, Button, CheckBox, StyleSheet, TextInput} from 'react-native';
+import {View, Text, Button, CheckBox, StyleSheet, TextInput, ScrollView} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import Input from '../components/Input';
 import Buttons from '../components/Buttons';
+import ImagePicker from '../components/ImagePicker'
 const url = 'http://10.10.22.67:3005/jobs';
-
+const axios = require('axios');
 
 const postScreen = (navigation, props) => {
-  const [job, setJob] = useState({})
 
+  const [jobs, setJobs] = useState([])
   const {control, handleSubmit, formState: {errors}} = useForm();
+
   const onSubmit = data => {
     // setJob(data)
     createJob(data)
@@ -29,23 +31,23 @@ const postScreen = (navigation, props) => {
       }
       setJobs(ans)
 
-
     } catch (error)
     {
       console.log(error)
     }
   }
 
-  function createJob (data) {
+  //post new event to the database.
+  function createJob (data, imgData) {
     console.log(data)
-    async function createT (data1) {
+    async function createT (data1, imgData1) {
       try
       {
-        console.log(data1)
+        console.log('imgadfg' + typeof imgData1)
         const response = await fetch(url, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>'
           },
           body: JSON.stringify({
             title: data1.title,
@@ -53,141 +55,29 @@ const postScreen = (navigation, props) => {
             startDate: data1.startDate,
             endDate: data1.endDate,
             duration: data1.duration,
-            description: data1.description
+            description: data1.description,
+            productImage: imgData1
+
           })
         });
-
+        console.log('sent')
         fetchApi()
-        const data = await response.json();
+        const data = await response.text();
       } catch (error)
       {
         console.log(error)
       }
     }
-    createT(data);
+    createT(data, imgData);
   }
-
-
-
-
-
 
   return (
     <View style={styles.container}>
+      <ScrollView >
+        <ImagePicker onSubmit={createJob} />
 
-      {/* TITLE */}
-      <Controller
-        control={control}
-        rules={{
-          required: true,
-        }}
-        render={({field: {onChange, value}}) => (
-          <TextInput
-            style={styles.input}
-            onChangeText={onChange}
-            value={value}
-            placeholder='TITLE'
-          />
-        )}
-        name="title"
-        defaultValue=""
-      />
-      {errors.title && <Text>This is required.</Text>}
-
-      {/* LOCATION */}
-      <Controller
-        control={control}
-        rules={{
-          maxLength: 100,
-        }}
-        render={({field: {onChange, value}}) => (
-          <TextInput
-            style={styles.input}
-            onChangeText={onChange}
-            value={value}
-            placeholder='LOCATION'
-          />
-        )}
-        name="location"
-        defaultValue=""
-      />
-
-      {/* dates */}
-      <Controller
-        control={control}
-        rules={{
-          required: true,
-        }}
-        render={({field: {onChange, value}}) => (
-          <TextInput
-            style={styles.input}
-            onChangeText={onChange}
-            value={value}
-            placeholder='START DATE'
-          />
-        )}
-        name="startDate"
-        defaultValue=""
-      />
-      {errors.title && <Text>This is required.</Text>}
-
-      {/* duration */}
-      <Controller
-        control={control}
-        rules={{
-          required: true,
-        }}
-        render={({field: {onChange, value}}) => (
-          <TextInput
-            style={styles.input}
-            onChangeText={onChange}
-            value={value}
-            placeholder='END DATE'
-          />
-        )}
-        name="endDate"
-        defaultValue=""
-      />
-      {errors.title && <Text>This is required.</Text>}
-
-      {/* description */}
-      <Controller
-        control={control}
-        rules={{
-          required: true,
-        }}
-        render={({field: {onChange, value}}) => (
-          <TextInput
-            style={styles.input}
-            onChangeText={onChange}
-            value={value}
-            placeholder='DURATION'
-          />
-        )}
-        name="duration"
-        defaultValue=""
-      />
-      {errors.title && <Text>This is required.</Text>}
-      <Controller
-        control={control}
-        rules={{
-          required: true,
-        }}
-        render={({field: {onChange, value}}) => (
-          <TextInput
-            style={styles.input}
-            onChangeText={onChange}
-            value={value}
-            placeholder='DESCRIPTION'
-          />
-        )}
-        name="description"
-        defaultValue=""
-      />
-      {errors.title && <Text>This is required.</Text>}
-
-      <Buttons label="SUBMIT" title="Submit" onPress={handleSubmit(onSubmit)} />
-    </View>
+      </ScrollView>
+    </View >
   );
 }
 
@@ -197,7 +87,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#ebebeb',
-    top: -100
+    top: 10
   },
   input: {
     alignItems: 'center',
@@ -217,6 +107,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     backgroundColor: 'black',
+    width: 200,
   },
   inputContainer: {
     marginBottom: 20,
@@ -229,6 +120,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
     elevation: 4,
   },
+
 })
 
 export default postScreen;
