@@ -4,7 +4,6 @@ import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import axios from 'axios';
 import Jobs from '../components/Jobs'
 import {_View} from 'react-native';
-const x = 'this is my const'
 // const url = 'http://localhost:3005/jobs';
 const url = 'http://10.10.22.67:3005/jobs';
 // const url = 'http://192.168.0.6:3005/jobs';
@@ -12,6 +11,7 @@ const url = 'http://10.10.22.67:3005/jobs';
 const homeScreen = () => {
 
   const [jobs, setJobs] = useState([])
+
   const fetchApi = async () => {
 
     try
@@ -32,6 +32,37 @@ const homeScreen = () => {
       console.log(error)
     }
 
+  }
+
+  function createEvent (title, location, startDate, endDate, duration, description) {
+
+    async function createT (title, location, startDate, endDate, duration, description) {
+      try
+      {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            title,
+            location,
+            startDate,
+            endDate,
+            duration,
+            description
+          })
+        });
+
+        fetchApi()
+        const data = await response.json();
+      } catch (error)
+      {
+        console.log(error)
+      }
+    }
+
+    createT(title, location, startDate, endDate, duration, description);
   }
 
   useEffect(() => {

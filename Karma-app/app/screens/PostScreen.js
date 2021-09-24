@@ -3,11 +3,74 @@ import {View, Text, Button, CheckBox, StyleSheet, TextInput} from 'react-native'
 import {useForm, Controller} from 'react-hook-form';
 import Input from '../components/Input';
 import Buttons from '../components/Buttons';
+const url = 'http://10.10.22.67:3005/jobs';
 
 
-const postScreen = (navigation) => {
+const postScreen = (navigation, props) => {
+  const [job, setJob] = useState({})
+
   const {control, handleSubmit, formState: {errors}} = useForm();
-  const onSubmit = data => console.log(data);
+  const onSubmit = data => {
+    // setJob(data)
+    createJob(data)
+    console.log(data.title)
+  };
+  const fetchApi = async () => {
+
+    try
+    {
+      const res = await axios.get(url)
+      let ans = []
+
+      let data = Object.values(res.data)
+      for (let i of data)
+      {
+        ans.push(i)
+      }
+      setJobs(ans)
+
+
+    } catch (error)
+    {
+      console.log(error)
+    }
+  }
+
+  function createJob (data) {
+    console.log(data)
+    async function createT (data1) {
+      try
+      {
+        console.log(data1)
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            title: data1.title,
+            location: data1.location,
+            startDate: data1.startDate,
+            endDate: data1.endDate,
+            duration: data1.duration,
+            description: data1.description
+          })
+        });
+
+        fetchApi()
+        const data = await response.json();
+      } catch (error)
+      {
+        console.log(error)
+      }
+    }
+    createT(data);
+  }
+
+
+
+
+
 
   return (
     <View style={styles.container}>
@@ -42,9 +105,10 @@ const postScreen = (navigation) => {
             style={styles.input}
             onChangeText={onChange}
             value={value}
+            placeholder='LOCATION'
           />
         )}
-        name="lastName"
+        name="location"
         defaultValue=""
       />
 
@@ -59,10 +123,10 @@ const postScreen = (navigation) => {
             style={styles.input}
             onChangeText={onChange}
             value={value}
-            placeholder='TITLE'
+            placeholder='START DATE'
           />
         )}
-        name="title"
+        name="startDate"
         defaultValue=""
       />
       {errors.title && <Text>This is required.</Text>}
@@ -78,10 +142,10 @@ const postScreen = (navigation) => {
             style={styles.input}
             onChangeText={onChange}
             value={value}
-            placeholder='TITLE'
+            placeholder='END DATE'
           />
         )}
-        name="title"
+        name="endDate"
         defaultValue=""
       />
       {errors.title && <Text>This is required.</Text>}
@@ -97,10 +161,27 @@ const postScreen = (navigation) => {
             style={styles.input}
             onChangeText={onChange}
             value={value}
-            placeholder='TITLE'
+            placeholder='DURATION'
           />
         )}
-        name="title"
+        name="duration"
+        defaultValue=""
+      />
+      {errors.title && <Text>This is required.</Text>}
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({field: {onChange, value}}) => (
+          <TextInput
+            style={styles.input}
+            onChangeText={onChange}
+            value={value}
+            placeholder='DESCRIPTION'
+          />
+        )}
+        name="description"
         defaultValue=""
       />
       {errors.title && <Text>This is required.</Text>}
@@ -146,7 +227,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
-    // shadowRadius: 2.62,
     elevation: 4,
   },
 })

@@ -35,6 +35,8 @@ const CustomTabBarButton = ({children, onPress}) => (
 
 
 const Tabs = () => {
+
+
   return (
 
     <Tab.Navigator
@@ -85,7 +87,6 @@ const Tabs = () => {
           ...styles.shadow
         }]
       })}
-
     >
 
       <Tab.Screen name="Home" component={HomeScreen} />
