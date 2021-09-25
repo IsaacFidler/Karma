@@ -11,6 +11,9 @@ const url = 'http://192.168.0.6:3005/jobs';
 const homeScreen = () => {
 
   const [jobs, setJobs] = useState([])
+  useEffect(() => {
+    fetchApi()
+  }, []);
 
   const fetchApi = async () => {
 

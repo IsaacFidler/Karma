@@ -14,10 +14,12 @@ const Jobs = (props) => {
         {
           props.myState.productImage == undefined ?
 
-            <Image source={{uri: url + 'uploads/2021-09-24T16:28:23.412Z7d535a2530a47fc29ca2d7ccbea03507c2a68d48_1_500x500.jpeg'}}
-              style={{width: 200, height: 200}}
-            /> :
-            <Image source={{uri: 'http://10.10.22.67:3005/uploads/2021-09-24T16:28:23.412Z7d535a2530a47fc29ca2d7ccbea03507c2a68d48_1_500x500.jpeg'}}
+            <Image
+              style={styles.tinyLogo}
+              source={require(filePath)}
+            />
+            :
+            <Image source={{uri: url + props.myState.productImage}}
               style={{width: 200, height: 200}}
             />
         }

@@ -41,7 +41,7 @@ export default function ImagePickerExample (props) {
     }
   };
 
-  //show pick image button and form for new job listing
+  // pick image button and form for new job listing
   return (
     <View style={styles.container}>
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
