@@ -20,7 +20,10 @@ const upload = multer({
 
 router
   .get('/', controller.getAllJobs)
-  // .post('/', controller.createJob)
+  .get('/:Id', controller.getDetailJob)
+
+
+
   .post('/', upload.single('productImage'), (req, res, next) => {
     const product = new Job({
       title: req.body.title,

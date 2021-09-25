@@ -1,26 +1,31 @@
 import React, {Component} from 'react';
-import {View, Text, ScrollView, FlatList, StyleSheet, Image} from 'react-native';
+import {View, Text, ScrollView, FlatList, StyleSheet, Image, TouchableOpacity} from 'react-native';
 const filePath = '../assets/stock.png'
 // const url = 'http://10.10.22.67:3005/';
 const url = 'http://192.168.0.6:3005/';
 
-const Jobs = (props) => {
-  return (
-    <View style={styles.container}>
-      {console.log(props.url)}
+const Jobs = (props, {navigation}) => {
 
+  const pressHandler = (id) => {
+    console.log(id)
+    navigation.push('JobDetail')
+  }
+
+  return (
+    <View style={styles.container} onPress={() => pressHandler(props.myState._id)}>
+
+      {/* if no image is provided then use the stock image */}
       <View style={styles.picture}>
-        {console.log(url + props.myState.productImage)}
         {
           props.myState.productImage == undefined ?
 
             <Image
-              style={styles.tinyLogo}
+              style={styles.jobImageSmall}
               source={require(filePath)}
             />
             :
             <Image source={{uri: url + props.myState.productImage}}
-              style={{width: 200, height: 200}}
+              style={styles.jobImageSmall}
             />
         }
       </View>
@@ -43,13 +48,12 @@ const Jobs = (props) => {
         </Text>
       </View>
     </View>
-
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
     borderColor: "#dedede",
@@ -58,20 +62,18 @@ const styles = StyleSheet.create({
     margin: 15,
     marginLeft: 10,
     marginRight: 10,
-    height: 300,
+    height: 200,
+
   },
 
   picture: {
-    top: -15,
-    width: 380,
+    width: 150,
     height: 150,
-    borderWidth: 2,
-    borderColor: "#20232a",
-    borderRadius: 4,
+    marginLeft: 100
   },
 
   textContainer: {
-    top: -20,
+
     borderColor: "#20232a",
     borderRadius: 4,
     color: "#20232a",
@@ -79,9 +81,14 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: "bold",
     width: 390,
-    height: 100,
-    paddingLeft: 5
+    height: 150,
+    paddingLeft: 110,
 
+  },
+  jobImageSmall: {
+    borderRadius: 4,
+    width: 150,
+    height: 150
   },
 
   text: {

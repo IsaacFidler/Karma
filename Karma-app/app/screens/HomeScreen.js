@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {useState, useEffect} from 'react';
-import {View, Text, ScrollView, StyleSheet} from 'react-native';
+import {View, Text, ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import Jobs from '../components/Jobs'
 import {_View} from 'react-native';
@@ -8,12 +8,19 @@ import {_View} from 'react-native';
 // const url = 'http://10.10.22.67:3005/jobs';
 const url = 'http://192.168.0.6:3005/jobs';
 
-const homeScreen = () => {
+const homeScreen = ({navigation}) => {
 
   const [jobs, setJobs] = useState([])
   useEffect(() => {
     fetchApi()
   }, []);
+
+  //pressHandler is called when an ad is clicked on to reveal the detailed page
+  const pressHandler = (id) => {
+    console.log(id)
+    navigation.navigate('JobDetail', {id: id})
+  }
+
 
   const fetchApi = async () => {
 
@@ -77,16 +84,20 @@ const homeScreen = () => {
   //map through all job listing in database and show on homepage
   return (
     <ScrollView style={styles.page}>
+
       {
         jobs.length < 1 ? <Text> no events </Text> :
           jobs.map(item => {
-            return < Jobs
-              myState={item}
-              key={item._id}
-
-            />
+            return <TouchableOpacity key={item._id} style={styles.container} onPress={() => pressHandler(item._id)}>
+              < Jobs
+                myState={item}
+                key={item._id}
+              />
+            </TouchableOpacity>
           })
       }
+      <View style={styles.gap} />
+
     </ScrollView>
   );
 }
@@ -96,6 +107,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  gap: {
+    height: 400,
+    backgroundColor: '#0000',
   },
   page: {
 
