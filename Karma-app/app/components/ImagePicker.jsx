@@ -1,13 +1,21 @@
 import React, {useState, useEffect} from 'react';
-import {Button, Image, View, Platform, StyleSheet, TextInput} from 'react-native';
+import {Button, Image, View, Platform, StyleSheet, TextInput, Text} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import {useForm, Controller} from 'react-hook-form';
 import Buttons from '../components/Buttons';
-
+import {CheckBox} from 'react-native-elements'
 
 //expo image picker
 export default function ImagePickerExample (props) {
   const [image, setImage] = useState(null);
+  const [animalTag, setAnimalTag] = useState(false);
+  const [childrenTag, setChildrenTag] = useState(false);
+  const [educationTag, setEducationTag] = useState(false);
+  const [environmentTag, setEnvironmentTag] = useState(false);
+  const [homelessTag, setHomelessTag] = useState(false);
+  const [socialTag, setSocialTag] = useState(false);
+
+
   const {control, handleSubmit, formState: {errors}} = useForm();
   const onSubmit = data => {
     props.onSubmit(data, image)
@@ -157,6 +165,39 @@ export default function ImagePickerExample (props) {
         defaultValue=""
       />
       {errors.title && <Text>This is required.</Text>}
+      <View style={styles.checkboxContainer}>
+        <CheckBox
+          title='Animals'
+          checked={animalTag}
+          onPress={() => setAnimalTag(!animalTag)}
+        />
+        <CheckBox
+          title='Children & Family services'
+          checked={childrenTag}
+          onPress={() => setChildrenTag(!childrenTag)}
+        />
+        <CheckBox
+          title='Education'
+          checked={educationTag}
+          onPress={() => setEducationTag(!educationTag)}
+        />
+        <CheckBox
+          title='Environment'
+          checked={environmentTag}
+          onPress={() => setEnvironmentTag(!setEnvironmentTag)}
+        />
+        <CheckBox
+          title='Homeless services'
+          checked={homelessTag}
+          onPress={() => setHomelessTag(!homelessTag)}
+        />
+        <CheckBox
+          title='Social services'
+          checked={socialTag}
+          onPress={() => setSocialTag(!socialTag)}
+        />
+      </View>
+
       <Buttons style={styles.button} label="SUBMIT" title="Submit" onPress={handleSubmit(onSubmit)} />
       <View style={styles.gap} />
     </View>
@@ -169,7 +210,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#ebebeb',
-    top: 100
+    top: 100,
+    width: 350
   },
   gap: {
     height: 400,
@@ -179,7 +221,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 40,
-    width: 300,
+    width: 328,
     paddingHorizontal: 5,
     backgroundColor: 'white',
     marginBottom: 5,
@@ -193,7 +235,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     backgroundColor: 'black',
-    width: 200,
+    width: 100,
   },
   inputContainer: {
     marginBottom: 20,
@@ -206,5 +248,20 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
     elevation: 4,
   },
+
+  checkboxContainer: {
+    flexDirection: "row",
+    marginBottom: 20,
+    flexWrap: 'wrap'
+  },
+  checkbox: {
+    alignSelf: "center",
+    width: 20,
+    height: 20
+  },
+  label: {
+    margin: 8,
+  },
+
 
 })

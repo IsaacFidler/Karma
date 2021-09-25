@@ -1,5 +1,5 @@
 import React from "react";
-import {View, Text, StyleSheet, Button, TextInput, Image} from "react-native";
+import {View, Text, StyleSheet, Button, TextInput, Image, TouchableOpacity} from "react-native";
 import {useForm, Controller} from 'react-hook-form';
 import Buttons from '../components/Buttons';
 

@@ -83,6 +83,10 @@ const styles = StyleSheet.create({
     width: 390,
     height: 150,
     paddingLeft: 110,
+    paddingRight: 90,
+    flexDirection: "row",
+    marginBottom: 20,
+    flexWrap: 'wrap'
 
   },
   jobImageSmall: {

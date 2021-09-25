@@ -88,7 +88,7 @@ const homeScreen = ({navigation}) => {
       {
         jobs.length < 1 ? <Text> no events </Text> :
           jobs.map(item => {
-            return <TouchableOpacity key={item._id} style={styles.container} onPress={() => pressHandler(item._id)}>
+            return <TouchableOpacity style={styles.checkboxContainer} key={item._id} style={styles.container} onPress={() => pressHandler(item._id)}>
               < Jobs
                 myState={item}
                 key={item._id}
@@ -111,6 +111,12 @@ const styles = StyleSheet.create({
   gap: {
     height: 400,
     backgroundColor: '#0000',
+  },
+  checkboxContainer: {
+    width: 200,
+    flexDirection: "row",
+    marginBottom: 20,
+    flexWrap: 'wrap'
   },
   page: {
 
