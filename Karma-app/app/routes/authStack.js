@@ -1,15 +1,15 @@
 import React from "react";
-import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from '@react-navigation/stack';
 
 import SignIn from '../screens/SignInScreen'
 import CreateAccount from '../screens/CreateAccounScreen'
 import Tabs from './tabs'
-import PostScreen from '../screens/PostScreen'
 const AuthStack = createStackNavigator();
 
+//stack for login / create account pages.
 const AuthStackScreen = () => (
   <AuthStack.Navigator>
+
     <AuthStack.Screen
       name="SignIn"
       component={SignIn}
@@ -20,6 +20,8 @@ const AuthStackScreen = () => (
       component={CreateAccount}
       options={{title: "Create Account"}}
     />
+
+    {/* final screen is the homepage with bottom tab navigation */}
     <AuthStack.Screen
       name="HomeScreen"
       component={Tabs}

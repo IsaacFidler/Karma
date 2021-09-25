@@ -1,14 +1,20 @@
 import React from "react";
-import {View, Text, StyleSheet, Button, TextInput} from "react-native";
+import {View, Text, StyleSheet, Button, TextInput, Image} from "react-native";
 import {useForm, Controller} from 'react-hook-form';
 import Buttons from '../components/Buttons';
 
+//just dummy sign in atm
 export default SignIn = ({navigation}) => {
   const {control, handleSubmit, formState: {errors}} = useForm();
   const onSubmit = data => console.log(data);
 
   return (
     <View style={styles.container}>
+
+      <Image
+        style={styles.topLogo}
+        source={require('../assets/banner.png')}
+      />
       <Text style={styles.welcome}>Welcome Back!</Text>
       <View >
         <Controller
@@ -49,7 +55,6 @@ export default SignIn = ({navigation}) => {
       </View>
       <View>
         <Button
-
           title="Create Account"
           onPress={() => {
             console.log('create account')
@@ -98,7 +103,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: 'black',
+    backgroundColor: '#6354E4',
   },
   inputContainer: {
     marginBottom: 20,
@@ -113,6 +118,9 @@ const styles = StyleSheet.create({
   },
   welcome: {
     top: -50
+  },
+  topLogo: {
+    top: -200
   },
   error: {textAlign: 'center', height: 17.5},
 });

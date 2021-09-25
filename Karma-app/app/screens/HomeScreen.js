@@ -5,8 +5,8 @@ import axios from 'axios';
 import Jobs from '../components/Jobs'
 import {_View} from 'react-native';
 // const url = 'http://localhost:3005/jobs';
-const url = 'http://10.10.22.67:3005/jobs';
-// const url = 'http://192.168.0.6:3005/jobs';
+// const url = 'http://10.10.22.67:3005/jobs';
+const url = 'http://192.168.0.6:3005/jobs';
 
 const homeScreen = () => {
 
@@ -71,8 +71,8 @@ const homeScreen = () => {
     fetchApi();
   }, []);
 
+  //map through all job listing in database and show on homepage
   return (
-
     <ScrollView style={styles.page}>
       {
         jobs.length < 1 ? <Text> no events </Text> :
@@ -80,6 +80,7 @@ const homeScreen = () => {
             return < Jobs
               myState={item}
               key={item._id}
+
             />
           })
       }

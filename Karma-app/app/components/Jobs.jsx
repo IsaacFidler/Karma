@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {View, Text, ScrollView, FlatList, StyleSheet, Image} from 'react-native';
 const filePath = '../assets/stock.png'
-const url = 'http://10.10.22.67:3005/';
+// const url = 'http://10.10.22.67:3005/';
+const url = 'http://192.168.0.6:3005/';
 
 const Jobs = (props) => {
   return (
-
     <View style={styles.container}>
+      {console.log(props.url)}
 
       <View style={styles.picture}>
         {console.log(url + props.myState.productImage)}

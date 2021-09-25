@@ -5,12 +5,11 @@ import {useForm, Controller} from 'react-hook-form';
 import Buttons from '../components/Buttons';
 
 
-
+//expo image picker
 export default function ImagePickerExample (props) {
   const [image, setImage] = useState(null);
   const {control, handleSubmit, formState: {errors}} = useForm();
   const onSubmit = data => {
-
     props.onSubmit(data, image)
   };
 
@@ -37,10 +36,12 @@ export default function ImagePickerExample (props) {
 
     if (!result.cancelled)
     {
-      setImage(result.uri);
+      let localUri = result.uri;
+      setImage(localUri);
     }
   };
 
+  //show pick image button and form for new job listing
   return (
     <View style={styles.container}>
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -156,7 +157,6 @@ export default function ImagePickerExample (props) {
         defaultValue=""
       />
       {errors.title && <Text>This is required.</Text>}
-
       <Buttons style={styles.button} label="SUBMIT" title="Submit" onPress={handleSubmit(onSubmit)} />
       <View style={styles.gap} />
     </View>

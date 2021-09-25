@@ -11,6 +11,6 @@ export default function Button ({label, ...props}) {
 }
 
 const styles = {
-  button: [t.selfStretch, t.bgGreen600, t.itemsCenter, t.pY3, t.rounded],
+  button: [t.selfStretch, t.bgIndigo600, t.itemsCenter, t.pY3, t.rounded],
   buttonLabel: [t.textWhite, t.textLg]
 };

@@ -12,6 +12,7 @@ const storage = multer.diskStorage({
     cb(null, new Date().toISOString() + file.originalname);
   }
 });
+
 const upload = multer({
   storage: storage, limits: {
     // fileSize: 1024 * 1024 * 5
@@ -22,16 +23,17 @@ router
   .get('/', controller.getAllJobs)
   // .post('/', controller.createJob)
   .post('/', upload.single('productImage'), (req, res, next) => {
-    console.log(req.link)
+    console.log(req.file)
+
     const product = new Job({
-      title: req.body.title,
-      location: req.body.location,
-      startDate: req.body.location,
-      endDate: req.body.endDate,
-      location: req.body.location,
-      duration: req.body.duration,
-      description: req.body.description,
-      productImage: req.body.productImage,
+      // title: req.body.title,
+      // location: req.body.location,
+      // startDate: req.body.location,
+      // endDate: req.body.endDate,
+      // location: req.body.location,
+      // duration: req.body.duration,
+      // description: req.body.description,
+      // productImage: req.file.path
     });
     product
       .save()

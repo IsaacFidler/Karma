@@ -2,7 +2,6 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
 import HomeScreen from '../screens/HomeScreen';
 import SearchScreen from '../screens/SearchScreen';
 import PostScreen from '../screens/PostScreen';
@@ -11,7 +10,9 @@ import ProfileScreen from '../screens/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
+//custom button for post section.
 const CustomTabBarButton = ({children, onPress}) => (
+
   <TouchableOpacity
     style={{
       top: -30,
@@ -19,14 +20,15 @@ const CustomTabBarButton = ({children, onPress}) => (
       alignItems: 'center',
       ...styles.shadow
     }}
-
     onPress={onPress}
   >
     <View style={{
       width: 70,
       height: 70,
       borderRadius: 35,
-      backgroundColor: '#85d46a'
+      // backgroundColor: '#85d46a',
+      color: 'white',
+      backgroundColor: '#6354E4'
     }}>
       {children}
     </View>
@@ -36,10 +38,11 @@ const CustomTabBarButton = ({children, onPress}) => (
 
 const Tabs = () => {
 
-
   return (
 
+    //Section handles icon highlighting depending on currently selected section.
     <Tab.Navigator
+
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
@@ -52,11 +55,9 @@ const Tabs = () => {
           } else if (route.name === 'Search')
           {
             iconName = focused ? 'search' : 'search-outline';
-
           } else if (route.name === 'Post')
           {
             iconName = focused ? 'add' : 'add-outline';
-
           }
           else if (route.name === 'Chat')
           {
@@ -65,11 +66,12 @@ const Tabs = () => {
           {
             iconName = focused ? 'person' : 'person-outline';
           }
-
           // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#85d46a',
+
+        // tabBarActiveTintColor: '#85d46a',
+        tabBarActiveTintColor: '#6354E4',
         tabBarInactiveTintColor: 'gray',
         tabBarShowLabel: false,
         tabBarStyle: [{
@@ -83,7 +85,6 @@ const Tabs = () => {
           height: 90,
           borderColor: '#000000',
           borderStyle: 'solid',
-
           ...styles.shadow
         }]
       })}
