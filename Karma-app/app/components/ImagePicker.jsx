@@ -14,11 +14,10 @@ export default function ImagePickerExample (props) {
   const [environmentTag, setEnvironmentTag] = useState(false);
   const [homelessTag, setHomelessTag] = useState(false);
   const [socialTag, setSocialTag] = useState(false);
-
-
+  const [tags, setTags] = useState([])
   const {control, handleSubmit, formState: {errors}} = useForm();
   const onSubmit = data => {
-    props.onSubmit(data, image)
+    props.onSubmit(data, image,)
   };
 
   useEffect(() => {

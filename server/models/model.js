@@ -9,10 +9,9 @@ const jobSchema = new Schema({
   'endDate': String,
   'duration': String,
   'description': String,
-  'productImage': {type: String, required: true}
-
+  'productImage': {type: String, required: true},
+  'tags': Array
 })
-
 
 const Jobs = mongoose.model('jobs', jobSchema);
 module.exports = Jobs;

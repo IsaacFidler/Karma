@@ -2,12 +2,17 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Button, TextInput, Image, TouchableOpacity} from "react-native";
 import {useForm, Controller} from 'react-hook-form';
 import Buttons from '../components/Buttons';
+import {AuthContext} from '../components/utils'
 import * as ImagePicker from 'expo-image-picker';
 
 
 export default CreateAccount = ({navigation}) => {
   const [image, setImage] = useState(null);
+  const [username, setUsername] = React.useState('')
+  const [password, setPassword] = React.useState('')
+  const {signUp} = React.useContext(AuthContext);
   const {control, handleSubmit, formState: {errors}} = useForm();
+
   const onSubmit = data => {
     props.onSubmit(data, image)
   };
@@ -43,6 +48,7 @@ export default CreateAccount = ({navigation}) => {
   // pick image button and form for new job listing
   return (
     <View style={styles.container}>
+      <Text style={styles.welcome}>Welcome!</Text>
       <View style={{alignItems: 'center', justifyContent: 'center'}}>
         <Button title="Pick an image from camera roll" onPress={pickImage} />
         {image && <Image source={{uri: image}} style={{width: 200, height: 200}} />}
@@ -52,64 +58,27 @@ export default CreateAccount = ({navigation}) => {
         style={styles.topLogo}
         source={require('../assets/banner.png')}
       />
-      <Text style={styles.welcome}>Welcome Back!</Text>
       <View >
-        <Controller
-          control={control}
-          name="name"
-          render={({field: {onChange, value, onBlur}}) => (
-            <TextInput
-              style={styles.input}
-              placeholder="NAME / CHARITY NAME"
-              value={value}
-              onChangeText={value => onChange(value)}
-            />
-          )}
+        <TextInput
+          style={styles.input}
+          placeholder="USERNAME"
+          value={username}
+          onChangeText={setUsername}
         />
-        <Controller
-          control={control}
-          name="email"
-          render={({field: {onChange, value, onBlur}}) => (
-            <TextInput
-              style={styles.input}
-              placeholder="EMAIL"
-              value={value}
-              onChangeText={value => onChange(value)}
-            />
-          )}
+
+        <TextInput
+          placeholder="PASSWORD"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          style={styles.input}
         />
-        <Controller
-          control={control}
-          name="password"
-          render={({field: {onChange, value, onBlur}}) => (
-            <TextInput
-              style={styles.input}
-              iconName="person"
-              iconType="MaterialIcons"
-              placeholder="PASSWORD"
-              value={value}
-              onChangeText={value => onChange(value)}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name="description"
-          render={({field: {onChange, value, onBlur}}) => (
-            <TextInput
-              style={styles.input}
-              iconName="person"
-              iconType="MaterialIcons"
-              placeholder="DESCRIPTION"
-              value={value}
-              onChangeText={value => onChange(value)}
-            />
-          )}
-        />
-        <Buttons label="LOGIN" style={styles.button} title='LOGIN' onPress={() => {
+
+        <Buttons label="REGISTER" style={styles.button} title='Register' onPress={() => {
 
           console.log('signin')
-          navigation.push("HomeScreen")
+          // navigation.push("HomeScreen")
+          signUp({username, password})
         }
         } />
       </View>

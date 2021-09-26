@@ -5,6 +5,8 @@ import axios from 'axios';
 const url = 'http://192.168.0.6:3005/';
 const url1 = 'http://192.168.0.6:3005/jobs';
 const filePath = '../assets/stock.png'
+import ApplyBanner from '../components/ApplyBanner';
+
 let ans = [];
 
 const JobDetail = ({route}) => {
@@ -42,7 +44,6 @@ const JobDetail = ({route}) => {
         style={styles.jobImage}
       />
       <Text>{url + job.productImage}</Text>
-      <Text> {job.title} </Text>
       <View style={styles.picture}>
         {
           job.productImage == undefined ?
@@ -57,9 +58,11 @@ const JobDetail = ({route}) => {
         }
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.title}>
-          {job.title}
-        </Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>
+            {job.title}
+          </Text>
+        </View>
         <Text style={styles.text}>
           {job.location}
         </Text>
@@ -73,6 +76,7 @@ const JobDetail = ({route}) => {
           {job.description}
         </Text>
       </View>
+      <ApplyBanner jobInfo={job} />
     </View>
   );
 }
@@ -87,6 +91,15 @@ const styles = StyleSheet.create({
   jobImage: {
     borderWidth: 2,
     borderRadius: 2,
+  },
+  titleContainer: {
+    borderWidth: 4,
+    width: 350,
+  },
+  title: {
+    fontSize: 25,
+    marginBottom: 30,
+    color: '#6354E4'
   }
 })
 

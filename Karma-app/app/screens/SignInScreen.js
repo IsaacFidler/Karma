@@ -1,12 +1,19 @@
 import React from "react";
-import {View, Text, StyleSheet, Button, TextInput, Image, TouchableOpacity} from "react-native";
+import {AsyncStorage, View, Text, StyleSheet, Button, TextInput, Image, TouchableOpacity, TextInputComponent} from "react-native";
 import {useForm, Controller} from 'react-hook-form';
 import Buttons from '../components/Buttons';
 
+
+import {AuthContext} from '../components/utils'
 //just dummy sign in atm
 export default SignIn = ({navigation}) => {
   const {control, handleSubmit, formState: {errors}} = useForm();
   const onSubmit = data => console.log(data);
+
+  const [username, setUsername] = React.useState('')
+  const [password, setPassword] = React.useState('')
+
+  const {signIn} = React.useContext(AuthContext);
 
   return (
     <View style={styles.container}>
@@ -17,40 +24,23 @@ export default SignIn = ({navigation}) => {
       />
       <Text style={styles.welcome}>Welcome Back!</Text>
       <View >
-        <Controller
-          control={control}
-          name="email"
-          render={({field: {onChange, value, onBlur}}) => (
-            <TextInput
-              style={styles.input}
-              iconName="person"
-              iconType="MaterialIcons"
-              placeholder="EMAIL"
-              value={value}
-              onChangeText={value => onChange(value)}
-            />
-          )}
+        <TextInput
+          placeholder="Username"
+          value={username}
+          onChangeText={setUsername}
+          style={styles.input}
         />
-        <Controller
-          control={control}
-          name="password"
-          render={({field: {onChange, value, onBlur}}) => (
-            <TextInput
-              style={styles.input}
-              iconName="person"
-              iconType="MaterialIcons"
-              placeholder="PASSWORD"
-              value={value}
-              onChangeText={value => onChange(value)}
-            />
-          )}
+        <TextInput
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          style={styles.input}
         />
-        <Buttons label="LOGIN" style={styles.button} title='LOGIN' onPress={() => {
 
-          console.log('signin')
-          navigation.push("HomeScreen")
-        }
-        } />
+        {/* <Buttons label="LOGIN" style={styles.button} title='LOGIN' onPress={} /> */}
+        <Buttons label="LOGIN" title='Sign in' onPress={() => signIn({username, password})} style={styles.button} />
+
 
       </View>
       <View>
@@ -58,7 +48,8 @@ export default SignIn = ({navigation}) => {
           title="Create Account"
           onPress={() => {
             console.log('create account')
-            navigation.push("CreateAccount")
+            navigation.navigate("CreateAccount")
+
           }}
         />
       </View>
@@ -103,7 +94,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: '#6354E4',
+    backgroundColor: '#6354E4'
   },
   inputContainer: {
     marginBottom: 20,

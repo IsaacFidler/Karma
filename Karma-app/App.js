@@ -24,15 +24,16 @@ function App () {
   //if its loading show the load page.
 
   return (
-    < NavigationContainer >
-      {isLoading ? (
-        <Loading />
-      ) : user ? (
-        <Tabs />
-      ) : (
-        <AuthStackScreen />
-      )}
-    </NavigationContainer >
+    // < NavigationContainer >
+    //   {isLoading ? (
+    //     <Loading />
+    //   ) : user ? (
+    //     <Tabs />
+    //   ) : (
+    //     <AuthStackScreen />
+    //   )}
+    // </NavigationContainer >
+    <AuthStackScreen />
   );
 }
 

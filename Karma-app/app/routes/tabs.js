@@ -1,5 +1,5 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import React from 'react';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from '../screens/HomeScreen';
@@ -7,7 +7,7 @@ import SearchScreen from '../screens/SearchScreen';
 import PostScreen from '../screens/PostScreen';
 import ChatScreen from '../screens/ChatScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-
+import {AuthContext} from '../components/utils'
 const Tab = createBottomTabNavigator();
 
 //custom button for post section.
@@ -74,6 +74,7 @@ const Tabs = () => {
         tabBarActiveTintColor: '#6354E4',
         tabBarInactiveTintColor: 'gray',
         tabBarShowLabel: false,
+        headerShown: false,
         tabBarStyle: [{
           position: 'absolute',
           bottom: 25,

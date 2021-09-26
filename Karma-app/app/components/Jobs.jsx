@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     height: 200,
-
   },
 
   picture: {
@@ -87,8 +86,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginBottom: 20,
     flexWrap: 'wrap'
-
   },
+
   jobImageSmall: {
     borderRadius: 4,
     width: 150,
@@ -97,14 +96,11 @@ const styles = StyleSheet.create({
 
   text: {
 
-
   },
+
   title: {
     fontSize: 20
   }
-
-
-
 })
 
 export default Jobs;

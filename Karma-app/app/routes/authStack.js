@@ -1,40 +1,140 @@
 import React from "react";
 import {createStackNavigator} from '@react-navigation/stack';
-
+import {AsyncStorage} from 'react-native'
 import SignIn from '../screens/SignInScreen'
 import CreateAccount from '../screens/CreateAccountScreen'
 import JobDetail from '../screens/JobDetail'
 import Tabs from './tabs'
+import {AuthContext} from '../components/utils'
+import Loading from '../screens/LoadingScreen'
+import {NavigationContainer} from '@react-navigation/native';
+
 const AuthStack = createStackNavigator();
+const StackAuth = createStackNavigator();
+function StackAuth2 () {
+  return (
+    <StackAuth.Navigator initialRouteName='SignIn' screenOptions={{
+      headerShown: false
+    }}>
+      <StackAuth.Screen name='SignIn' component={SignIn} />
+      <StackAuth.Screen name='CreateAccount' component={CreateAccount} />
+    </StackAuth.Navigator>
+  )
+}
 
-//stack for login / create account pages.
-const AuthStackScreen = () => (
-  <AuthStack.Navigator>
+export default function AuthStackScreen ({navigation}) {
+  const [state, dispatch] = React.useReducer(
+    (prevState, action) => {
+      switch (action.type)
+      {
+        case 'RESTORE_TOKEN':
+          return {
+            ...prevState,
+            userToken: action.token,
+            isLoading: false,
+          };
+        case 'SIGN_IN':
+          if (action.token)
+          {
+            AsyncStorage.setItem('userToken', action.token)
+          }
+          return {
+            ...prevState,
+            isSignout: false,
+            userToken: action.token
+          };
+        case 'SIGN_OUT':
+          AsyncStorage.removeItem('userToken')
+          return {
+            ...prevState,
+            isSignout: true,
+            userToken: null,
+          }
+      }
+    },
+    {
+      isLoading: true,
+      isSignout: false,
+      userToken: null,
 
-    <AuthStack.Screen
-      name="SignIn"
-      component={SignIn}
-      options={{title: "Sign In"}}
-    />
-    <AuthStack.Screen
-      name="CreateAccount"
-      component={CreateAccount}
-      options={{title: "Create Account"}}
-    />
+    },
+  );
 
-    {/* final screen is the homepage with bottom tab navigation */}
-    <AuthStack.Screen
-      name="HomeScreen"
-      component={Tabs}
-      options={{title: "Home Screen"}}
-    />
+  React.useEffect(() => {
+    const bootstrapAsync = async () => {
+      let userToken;
 
-    <AuthStack.Screen
-      name="JobDetail"
-      component={JobDetail}
-      options={{title: "Job Detail"}}
-    />
-  </AuthStack.Navigator>
-);
+      try
+      {
+        userToken = await AsyncStorage.getItem('userToken');
+      } catch (e)
+      {
 
-export default AuthStackScreen
+      }
+      dispatch({type: 'RESTORE_TOKEN', token: userToken})
+    }
+
+    bootstrapAsync();
+  }, []);
+
+  const authContext = React.useMemo(
+    () => ({
+      signIn: async data => {
+        console.log('Singin data:', data)
+        dispatch({type: 'SIGN_IN', token: 'dummy-auth-token'})
+      },
+      signOut: () => dispatch({type: 'SIGN_OUT'}),
+      signUp: async data => {
+
+        dispatch({type: 'SIGN_IN', token: 'dummy-auth-token'})
+      },
+    }),
+    [],
+  )
+  // //stack for login / create account pages.
+  // const AuthStackScreen = ({navigation}) => (
+  return (
+    <AuthContext.Provider value={authContext} >
+      <NavigationContainer screenoptions={{headerShown: false}}>
+        <AuthStack.Navigator >
+          {state.isLoading ? (
+            //we havent finished checking for the token yet
+            <AuthStack.Screen name="Loading" component={Loading} />
+          ) : state.userToken == null ? (
+            <AuthStack.Screen
+              name="Auth"
+              component={StackAuth2}
+              options={{
+                title: "Sign In",
+                headerShown: false,
+                //when logging out, a pop animation feels intuituve
+                animationTypeForReplace: state.isSignout ? 'pop' : 'push'
+              }}
+            />
+
+          ) : (
+            //user is signed final screen is the homepage with bottom tab navigation
+            < AuthStack.Screen
+              name="HomeScreen"
+              component={Tabs}
+              options={{
+                title: "Home Screen",
+                headerShown: false
+              }}
+
+            />
+          )}
+
+          <AuthStack.Screen
+            name="JobDetail"
+            component={JobDetail}
+            options={{title: "Job Detail"}}
+          />
+        </AuthStack.Navigator>
+      </NavigationContainer>
+
+    </AuthContext.Provider >
+  );
+}
+
+  // export default AuthStackScreen
