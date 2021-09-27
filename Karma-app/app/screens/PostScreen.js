@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View, Text, Button, CheckBox, StyleSheet, TextInput, ScrollView,
 } from 'react-native';
@@ -9,9 +9,13 @@ import ImagePicker from '../components/ImagePicker';
 const url = 'http://10.10.22.243:3005/jobs';
 // const url = 'http://192.168.0.6:3005/jobs';
 
-const postScreen = (navigation, props) => {
+const postScreen = (props) => {
   const [jobs, setJobs] = useState([]);
-
+  const [user2, setUser2] = useState('');
+  // useEffect(() => {
+  //   fetchUsername()
+  // }, []);
+  // const user = props.route.params.params
   const fetchApi = async () => {
     try
     {
@@ -31,10 +35,11 @@ const postScreen = (navigation, props) => {
   };
 
   // post new job to the database.
-  function createJob (data, imgData, tagArray) {
-    async function createT (data1, imgData1, tagArray1) {
+  function createJob (data, imgData, tagArray, user) {
+    async function createT (data1, imgData1, tagArray1, user1) {
       try
       {
+        console.log(user1)
         const filename = imgData1.split('/').pop();
         // Infer the type of the image
         const match = /\.(\w+)$/.exec(filename);
@@ -51,6 +56,7 @@ const postScreen = (navigation, props) => {
         formData.append('endDate', data1.endDate);
         formData.append('duration', data1.duration);
         formData.append('description', data1.description);
+        formData.append('createdBy', user1);
         formData.append('tags', tagArray1.join());
 
         // console.log('asdf   ' + Object.keys(formData))
@@ -72,7 +78,7 @@ const postScreen = (navigation, props) => {
       }
     }
 
-    createT(data, imgData, tagArray);
+    createT(data, imgData, tagArray, props.route.params.route.params);
   }
 
   return (

@@ -24,7 +24,8 @@ router
   .get('/', controller.getAllJobs)
   .get('/user', controller.getAllUsers)
   .get('/:Id', controller.getDetailJob)
-  .get('/user/:Id', controller.getDetailUser)
+  .get('/user/:username', controller.getDetailUser)
+  .put('/user/:username', controller.appliedforJobs)
   .post('/user', upload.single('userImage'), (req, res, next) => {
     console.log(req.body)
     const product = new User({
@@ -32,6 +33,9 @@ router
       password: req.body.password,
       location: req.body.location,
       aboutMe: req.body.aboutMe,
+      userImage: req.file.path,
+      jobsApplied: '',
+      jobsSaved: '',
       userImage: req.file.path,
     });
     product
@@ -46,6 +50,8 @@ router
             location: result.location,
             aboutMe: result.aboutMe,
             userImage: result.userImage,
+            jobsApplied: result.jobsApplied,
+            jobsSaved: result.jobsSaved,
             request: {
               type: 'GET',
               url: "http://localhost:3004/jobs/"
@@ -61,17 +67,17 @@ router
       });
   })
   .post('/', upload.single('productImage'), (req, res, next) => {
-    console.log(req.body)
     const product = new Job({
       title: req.body.title,
       location: req.body.location,
-      startDate: req.body.location,
+      startDate: req.body.startDate,
       endDate: req.body.endDate,
       location: req.body.location,
       duration: req.body.duration,
       description: req.body.description,
       productImage: req.file.path,
-      tags: req.body.tags
+      tags: req.body.tags,
+      createdBy: req.body.createdBy
     });
     product
       .save()
@@ -86,6 +92,8 @@ router
             endDate: result.endDate,
             duration: result.duration,
             description: result.description,
+            tags: result.tags,
+            createdBy: result.createdBy,
             productImage: result.productImage,
             request: {
               type: 'GET',

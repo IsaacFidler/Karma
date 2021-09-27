@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View, Text, ScrollView, FlatList, StyleSheet, Image, TouchableOpacity,
 } from 'react-native';
@@ -6,9 +6,9 @@ import {
 const filePath = '../assets/stock.png';
 // const url = 'http://10.10.22.67:3005/';
 // const url = 'http://192.168.0.6:3005/';
-const url = 'https://10.10.22.243:3005/jobs';
+const url = 'http://10.10.22.243:3005/';
 
-const Jobs = (props, { navigation }) => {
+const Jobs = (props, {navigation}) => {
   const tags = [];
   const pressHandler = (id) => {
     navigation.push('JobDetail');
@@ -30,7 +30,7 @@ const Jobs = (props, { navigation }) => {
             )
             : (
               <Image
-                source={{ uri: url + props.myState.productImage }}
+                source={{uri: url + props.myState.productImage}}
                 style={styles.jobImageSmall}
               />
             )
@@ -40,6 +40,9 @@ const Jobs = (props, { navigation }) => {
       <View style={styles.textContainer}>
         <Text style={styles.title}>
           {props.myState.title}
+        </Text>
+        <Text style={styles.text}>
+          {props.myState.createdBy}
         </Text>
         <Text style={styles.text}>
           {props.myState.tags}

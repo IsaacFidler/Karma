@@ -37,7 +37,7 @@ const CustomTabBarButton = ({children, onPress}) => (
 
 
 const Tabs = (props, {route}) => {
-
+  console.log(props)
   return (
 
     //Section handles icon highlighting depending on currently selected section.
@@ -91,9 +91,12 @@ const Tabs = (props, {route}) => {
     >
 
 
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Home" component={HomeScreen}
+
+        initialParams={props.route} />
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="Post" component={PostScreen}
+
         options={{
           tabBarIcon: ({focused}) => (
             <Ionicons
@@ -110,6 +113,8 @@ const Tabs = (props, {route}) => {
           ),
           tabBarVisible: false,
         }}
+        initialParams={props}
+
       />
       <Tab.Screen name="Chat" component={ChatScreen} options={{
         tabBarVisible: false,

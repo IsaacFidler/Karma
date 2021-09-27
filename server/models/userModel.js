@@ -7,6 +7,8 @@ const userSchema = new Schema({
   'password': String,
   'location': String,
   'aboutMe': String,
+  'jobsApplied': String,
+  'jobsSaved': String,
   'userImage': {type: String, required: true}
 })
 

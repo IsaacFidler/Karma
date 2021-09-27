@@ -9,6 +9,7 @@ const jobSchema = new Schema({
   'endDate': String,
   'duration': String,
   'description': String,
+  'createdBy': String,
   'productImage': {type: String, required: true},
   'tags': String
 })

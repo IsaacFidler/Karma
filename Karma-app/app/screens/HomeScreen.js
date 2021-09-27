@@ -4,23 +4,26 @@ import {View, Text, ScrollView, StyleSheet, TouchableOpacity} from 'react-native
 import axios from 'axios';
 import Jobs from '../components/Jobs'
 import {_View} from 'react-native';
+
+//for image retireval the jobs part is not required
 // const url = 'http://localhost:3005/jobs';
 const url = 'http://10.10.22.243:3005/jobs';
 // const url = 'http://192.168.0.6:3005/jobs';
 
-const homeScreen = ({navigation}) => {
-
+const homeScreen = (props) => {
   const [jobs, setJobs] = useState([])
-  useEffect(() => {
-    fetchApi()
-  }, []);
-
+  const navigation = props.navigation
   //pressHandler is called when an ad is clicked on to reveal the detailed page
-  const pressHandler = (id) => {
-    console.log(id)
-    navigation.navigate('JobDetail', {id: id})
-  }
+  // console.log(props)
 
+  const pressHandler = (id) => {
+    console.log("£££££" + props.route)
+    console.log(props.route)
+    navigation.navigate('JobDetail', {
+      id: id,
+      username: props.route
+    })
+  }
 
   const fetchApi = async () => {
 
@@ -44,12 +47,10 @@ const homeScreen = ({navigation}) => {
 
   }
 
-
-
   useEffect(() => {
 
     fetchApi();
-  }, []);
+  }, [jobs]);
 
   //map through all job listing in database and show on homepage
   return (
@@ -89,7 +90,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap'
   },
   page: {
-
 
   }
 })

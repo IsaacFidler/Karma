@@ -45,10 +45,11 @@ exports.getDetailJob = async (req, res) => {
 }
 exports.getDetailUser = async (req, res) => {
 
-  let userId = req.params.Id;
+  let userId = req.params.username
   try
   {
-    const users = await Job.find({"_id": userId})
+    const users = await User.find({"username": userId})
+    console.log(users)
     res.json(users)
     res.status(200);
   } catch (e)
@@ -58,7 +59,29 @@ exports.getDetailUser = async (req, res) => {
   }
 }
 
+exports.appliedforJobs = async (req, res) => {
+  let user = req.params.username
+  console.log()
+  try
+  {
+    const users = await User.find({"username": user})
+    // const theUser = users.pop()
+    // console.log(req.body)
+    // console.log(theUser.jobsApplied)
+    users[0].jobsApplied = users[0].jobsApplied + ', ' + req.body.job
+    // users[0].jobsApplied = ''
+    users[0].save();
+    res.send({data: users})
+    // console.log(theUser.jobsApplied)
+    res.json(users)
+    res.status(200);
+  } catch (e)
+  {
+    console.error(e)
+    res.status(500);
+  }
 
+}
 
 exports.createJob2 = async (req, res) => {
   console.log(req.file)
