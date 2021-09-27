@@ -1,32 +1,35 @@
-import React, {useState, useEffect} from 'react';
-import {Button, Image, View, Platform, StyleSheet, TextInput, Text} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+  Button, Image, View, Platform, StyleSheet, TextInput, Text,
+} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import {useForm, Controller} from 'react-hook-form';
-import Buttons from '../components/Buttons';
-import {CheckBox} from 'react-native-elements'
+import { useForm, Controller } from 'react-hook-form';
+import { CheckBox } from 'react-native-elements';
+import Buttons from './Buttons';
 
-//expo image picker
-export default function ImagePickerExample (props) {
+const tagArray = [];
+
+// expo image picker
+export default function ImagePickerExample(props) {
   const [image, setImage] = useState(null);
   const [animalTag, setAnimalTag] = useState(false);
   const [childrenTag, setChildrenTag] = useState(false);
   const [educationTag, setEducationTag] = useState(false);
-  const [environmentTag, setEnvironmentTag] = useState(false);
   const [homelessTag, setHomelessTag] = useState(false);
   const [socialTag, setSocialTag] = useState(false);
-  const [tags, setTags] = useState([])
-  const {control, handleSubmit, formState: {errors}} = useForm();
-  const onSubmit = data => {
-    props.onSubmit(data, image,)
+  const [tags, setTags] = useState([]);
+  const { control, handleSubmit, formState: { errors } } = useForm();
+
+  const onSubmit = (data) => {
+    setTags(tagArray);
+    props.onSubmit(data, image, tagArray);
   };
 
   useEffect(() => {
     (async () => {
-      if (Platform.OS !== 'web')
-      {
-        const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== 'granted')
-        {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
           alert('Sorry, we need camera roll permissions to make this work!');
         }
       }
@@ -34,16 +37,15 @@ export default function ImagePickerExample (props) {
   }, []);
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
 
-    if (!result.cancelled)
-    {
-      let localUri = result.uri;
+    if (!result.cancelled) {
+      const localUri = result.uri;
       setImage(localUri);
     }
   };
@@ -51,21 +53,21 @@ export default function ImagePickerExample (props) {
   // pick image button and form for new job listing
   return (
     <View style={styles.container}>
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Button title="Pick an image from camera roll" onPress={pickImage} />
-        {image && <Image source={{uri: image}} style={{width: 200, height: 200}} />}
+        {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
       </View>
       <Controller
         control={control}
         rules={{
           required: true,
         }}
-        render={({field: {onChange, value}}) => (
+        render={({ field: { onChange, value } }) => (
           <TextInput
             style={styles.input}
             onChangeText={onChange}
             value={value}
-            placeholder='TITLE'
+            placeholder="TITLE"
           />
         )}
         name="title"
@@ -79,12 +81,12 @@ export default function ImagePickerExample (props) {
         rules={{
           maxLength: 100,
         }}
-        render={({field: {onChange, value}}) => (
+        render={({ field: { onChange, value } }) => (
           <TextInput
             style={styles.input}
             onChangeText={onChange}
             value={value}
-            placeholder='LOCATION'
+            placeholder="LOCATION"
           />
         )}
         name="location"
@@ -97,12 +99,12 @@ export default function ImagePickerExample (props) {
         rules={{
           required: true,
         }}
-        render={({field: {onChange, value}}) => (
+        render={({ field: { onChange, value } }) => (
           <TextInput
             style={styles.input}
             onChangeText={onChange}
             value={value}
-            placeholder='START DATE'
+            placeholder="START DATE"
           />
         )}
         name="startDate"
@@ -116,12 +118,12 @@ export default function ImagePickerExample (props) {
         rules={{
           required: true,
         }}
-        render={({field: {onChange, value}}) => (
+        render={({ field: { onChange, value } }) => (
           <TextInput
             style={styles.input}
             onChangeText={onChange}
             value={value}
-            placeholder='END DATE'
+            placeholder="END DATE"
           />
         )}
         name="endDate"
@@ -135,12 +137,12 @@ export default function ImagePickerExample (props) {
         rules={{
           required: true,
         }}
-        render={({field: {onChange, value}}) => (
+        render={({ field: { onChange, value } }) => (
           <TextInput
             style={styles.input}
             onChangeText={onChange}
             value={value}
-            placeholder='DURATION'
+            placeholder="DURATION"
           />
         )}
         name="duration"
@@ -152,12 +154,12 @@ export default function ImagePickerExample (props) {
         rules={{
           required: true,
         }}
-        render={({field: {onChange, value}}) => (
+        render={({ field: { onChange, value } }) => (
           <TextInput
             style={styles.input}
             onChangeText={onChange}
             value={value}
-            placeholder='DESCRIPTION'
+            placeholder="DESCRIPTION"
           />
         )}
         name="description"
@@ -166,34 +168,75 @@ export default function ImagePickerExample (props) {
       {errors.title && <Text>This is required.</Text>}
       <View style={styles.checkboxContainer}>
         <CheckBox
-          title='Animals'
+          title="Animals"
           checked={animalTag}
-          onPress={() => setAnimalTag(!animalTag)}
+          onPress={() => {
+            if (animalTag === false) {
+              tagArray.push('Animals');
+              console.log(tagArray);
+            } else if (animalTag === true) {
+              tagArray.splice(tagArray.indexOf('Animals', 1));
+              console.log(tagArray);
+            }
+            setAnimalTag(!animalTag);
+          }}
         />
         <CheckBox
-          title='Children & Family services'
+          title="Children & Family services"
           checked={childrenTag}
-          onPress={() => setChildrenTag(!childrenTag)}
+          onPress={() => {
+            if (childrenTag === false) {
+              tagArray.push('Children Services');
+              console.log(tagArray);
+            } else if (childrenTag === true) {
+              tagArray.splice(tagArray.indexOf('Children Services', 1));
+              console.log(tagArray);
+            }
+            setChildrenTag(!childrenTag);
+          }}
         />
         <CheckBox
-          title='Education'
+          title="Education"
           checked={educationTag}
-          onPress={() => setEducationTag(!educationTag)}
+          onPress={() => {
+            if (educationTag === false) {
+              tagArray.push('Education');
+              console.log(tagArray);
+            } else if (educationTag === true) {
+              tagArray.splice(tagArray.indexOf('Education', 1));
+              console.log(tagArray);
+            }
+            setEducationTag(!educationTag);
+          }}
         />
+
         <CheckBox
-          title='Environment'
-          checked={environmentTag}
-          onPress={() => setEnvironmentTag(!setEnvironmentTag)}
-        />
-        <CheckBox
-          title='Homeless services'
+          title="Homeless services"
           checked={homelessTag}
-          onPress={() => setHomelessTag(!homelessTag)}
+          onPress={() => {
+            if (homelessTag === false) {
+              tagArray.push('Homeless Services');
+              console.log(tagArray);
+            } else if (homelessTag === true) {
+              tagArray.splice(tagArray.indexOf('Homeless Services', 1));
+              console.log(tagArray);
+            }
+            setHomelessTag(!homelessTag);
+          }}
         />
         <CheckBox
-          title='Social services'
+          title="Social services"
           checked={socialTag}
-          onPress={() => setSocialTag(!socialTag)}
+          onPress={() => {
+            if (socialTag === false) {
+              tagArray.push('Social Services');
+              console.log(tagArray);
+            } else if (socialTag === true) {
+              tagArray.splice(tagArray.indexOf('Social Services', 1));
+              console.log(tagArray);
+            }
+            setSocialTag(!socialTag);
+          }}
         />
       </View>
 
@@ -210,7 +253,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#ebebeb',
     top: 100,
-    width: 350
+    width: 350,
   },
   gap: {
     height: 400,
@@ -249,18 +292,17 @@ const styles = StyleSheet.create({
   },
 
   checkboxContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginBottom: 20,
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   checkbox: {
-    alignSelf: "center",
+    alignSelf: 'center',
     width: 20,
-    height: 20
+    height: 20,
   },
   label: {
     margin: 8,
   },
 
-
-})
+});

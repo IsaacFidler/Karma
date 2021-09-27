@@ -1,29 +1,65 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, Button, TextInput, Image, TouchableOpacity} from "react-native";
-import {useForm, Controller} from 'react-hook-form';
-import Buttons from '../components/Buttons';
-import {AuthContext} from '../components/utils'
+import React, { useState, useEffect } from 'react';
+import {
+  View, Text, StyleSheet, Button, TextInput, Image, TouchableOpacity,
+} from 'react-native';
+import { useForm, Controller } from 'react-hook-form';
 import * as ImagePicker from 'expo-image-picker';
+import Buttons from '../components/Buttons';
+import { AuthContext } from '../components/utils';
+// const url = 'http://192.168.0.6:3005/jobs/users';
+const url = 'https://10.10.22.243:3005/jobs/users';
 
-
-export default CreateAccount = ({navigation}) => {
+export default CreateAccount = ({ navigation }) => {
   const [image, setImage] = useState(null);
-  const [username, setUsername] = React.useState('')
-  const [password, setPassword] = React.useState('')
-  const {signUp} = React.useContext(AuthContext);
-  const {control, handleSubmit, formState: {errors}} = useForm();
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [location, setLocation] = React.useState('');
+  const [aboutMe, setAboutMe] = React.useState('');
+  const { signUp } = React.useContext(AuthContext);
+  const { control, handleSubmit, formState: { errors } } = useForm();
 
-  const onSubmit = data => {
-    props.onSubmit(data, image)
-  };
+  function createUser(username, password, location, aboutMe, image) {
+    async function createT(username1, password1, location1, aboutMe1, imgData1) {
+      try {
+        const filename = imgData1.split('/').pop();
+        // Infer the type of the image
+        const match = /\.(\w+)$/.exec(filename);
+        const type = match ? `image/${match[1]}` : 'image';
+
+        // Upload the image using the fetch and FormData APIs
+        const formData = new FormData();
+        // "productImage" is the name of the form field the server expects
+        formData.append('userImage', { uri: imgData1, name: filename, type });
+        formData.append('username', username);
+        formData.append('password', password);
+        formData.append('location', location);
+        formData.append('aboutMe', aboutMe);
+
+        const response = await fetch(url, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'multipart/form-data',
+          },
+
+        });
+        fetchApi();
+        const data = await response.text();
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    createT(username, password, location, aboutme, image);
+  }
 
   useEffect(() => {
     (async () => {
-      if (Platform.OS !== 'web')
-      {
-        const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== 'granted')
-        {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
           alert('Sorry, we need camera roll permissions to make this work!');
         }
       }
@@ -31,34 +67,44 @@ export default CreateAccount = ({navigation}) => {
   }, []);
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
 
-    if (!result.cancelled)
-    {
-      let localUri = result.uri;
+    if (!result.cancelled) {
+      const localUri = result.uri;
       setImage(localUri);
     }
   };
-
+  // const onPress = (navigation) => navigation.push("CreateAccount");
   // pick image button and form for new job listing
   return (
     <View style={styles.container}>
+
+      <Button
+        title="< Back"
+        onPress={() => {
+          console.log('create account');
+          navigation.navigate('SignIn');
+        }}
+        style={styles.button}
+      />
+
+      <View style={styles.backButtonContainer} />
       <Text style={styles.welcome}>Welcome!</Text>
-      <View style={{alignItems: 'center', justifyContent: 'center'}}>
+      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
         <Button title="Pick an image from camera roll" onPress={pickImage} />
-        {image && <Image source={{uri: image}} style={{width: 200, height: 200}} />}
+        {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
       </View>
 
       <Image
         style={styles.topLogo}
         source={require('../assets/banner.png')}
       />
-      <View >
+      <View>
         <TextInput
           style={styles.input}
           placeholder="USERNAME"
@@ -74,13 +120,35 @@ export default CreateAccount = ({navigation}) => {
           style={styles.input}
         />
 
-        <Buttons label="REGISTER" style={styles.button} title='Register' onPress={() => {
+        <TextInput
+          placeholder="LOCATION"
+          value={location}
+          onChangeText={setLocation}
+          style={styles.input}
+        />
 
-          console.log('signin')
-          // navigation.push("HomeScreen")
-          signUp({username, password})
-        }
-        } />
+        <TextInput
+          placeholder="ABOUT ME"
+          value={aboutMe}
+          onChangeText={setAboutMe}
+          style={styles.input}
+        />
+
+        <Buttons
+          label="REGISTER"
+          style={styles.button}
+          title="Register"
+          onPress={() => {
+            createUser(username, password, location, aboutMe, image);
+            console.log('New User Created 😱 😱 😱 😱');
+            console.log(username);
+            console.log(password);
+            console.log(location);
+            console.log(aboutMe);
+            console.log(image);
+            signUp({ username, password });
+          }}
+        />
       </View>
     </View>
   );
@@ -91,7 +159,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#ebebeb'
+    backgroundColor: '#ebebeb',
   },
   input: {
     alignItems: 'center',
@@ -117,13 +185,24 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'center',
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
+    color: '#fff',
     backgroundColor: '#6354E4',
+    left: -150,
+    top: -50,
+    padding: 10,
+  },
+
+  backButtonContainer: {
+    width: 70,
+    left: -150,
+    top: -50,
+
   },
   inputContainer: {
     marginBottom: 20,
@@ -137,10 +216,10 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   welcome: {
-    top: -50
+    top: -50,
   },
   topLogo: {
-    top: -200
+    top: -200,
   },
-  error: {textAlign: 'center', height: 17.5},
+  error: { textAlign: 'center', height: 17.5 },
 });

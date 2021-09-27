@@ -2,8 +2,10 @@ import React from 'react';
 import {View, Text, Button, StyleSheet, Image} from 'react-native';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
-const url = 'http://192.168.0.6:3005/';
-const url1 = 'http://192.168.0.6:3005/jobs';
+// const url = 'http://192.168.0.6:3005/';
+// const url1 = 'http://192.168.0.6:3005/jobs';
+const url = 'http://10.10.22.243:3005/';
+const url1 = 'http://10.10.22.243:3005/jobs';
 const filePath = '../assets/stock.png'
 import ApplyBanner from '../components/ApplyBanner';
 

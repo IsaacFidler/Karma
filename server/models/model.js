@@ -10,7 +10,7 @@ const jobSchema = new Schema({
   'duration': String,
   'description': String,
   'productImage': {type: String, required: true},
-  'tags': Array
+  'tags': String
 })
 
 const Jobs = mongoose.model('jobs', jobSchema);

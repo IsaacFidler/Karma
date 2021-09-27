@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-mongoose.connect('mongodb://localhost/karma4', {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
+mongoose.connect('mongodb://localhost/karma5', {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
   if (err) return console.log(err)
   console.log('🐊🐊🐊🐊🐊connected to database🐊🐊🐊🐊🐊🐊')
 })

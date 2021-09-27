@@ -1,5 +1,6 @@
 
 const Job = require('../models/model')
+const User = require('../models/userModel')
 
 
 exports.getAllJobs = async (req, res) => {
@@ -15,6 +16,19 @@ exports.getAllJobs = async (req, res) => {
   }
 }
 
+exports.getAllUsers = async (req, res) => {
+  try
+  {
+    const users = await User.find()
+    res.json(users)
+    res.status(200);
+  } catch (e)
+  {
+    console.error(e)
+    res.status(500);
+  }
+}
+
 exports.getDetailJob = async (req, res) => {
 
   let userId = req.params.Id;
@@ -22,6 +36,20 @@ exports.getDetailJob = async (req, res) => {
   {
     const jobs = await Job.find({"_id": userId})
     res.json(jobs)
+    res.status(200);
+  } catch (e)
+  {
+    console.error(e)
+    res.status(500);
+  }
+}
+exports.getDetailUser = async (req, res) => {
+
+  let userId = req.params.Id;
+  try
+  {
+    const users = await Job.find({"_id": userId})
+    res.json(users)
     res.status(200);
   } catch (e)
   {
