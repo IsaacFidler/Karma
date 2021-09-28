@@ -107,12 +107,15 @@ const styles = StyleSheet.create({
   },
 
   text: {
+    width: '100%'
 
   },
 
   title: {
     fontSize: 20,
-    marginBottom: 10
+    marginBottom: 10,
+    width: '100%'
+
   },
 });
 

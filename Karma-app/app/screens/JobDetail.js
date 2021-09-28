@@ -42,6 +42,7 @@ const JobDetail = (props) => {
       console.log(error)
     }
   }
+
   const updateUser = async (currentUser, jobTitle) => {
     async function updateU (currentUser1, jobTitle1) {
       try
@@ -67,8 +68,6 @@ const JobDetail = (props) => {
     updateU(currentUser, job.title);
   }
 
-
-  console.log(url + job.productImage)
   return (
     <View>
       <Header />
@@ -93,12 +92,13 @@ const JobDetail = (props) => {
                 {job.title}
               </Text>
             </View>
-            <Text style={styles.text}>
-              {job.location}
-            </Text>
             <Text style={styles.user}>
               {job.createdBy}
             </Text>
+            <Text style={styles.text}>
+              {job.location}
+            </Text>
+
 
             <Text style={styles.text}>
               {job.dates}
@@ -106,23 +106,21 @@ const JobDetail = (props) => {
             <Text style={styles.text}>
               {job.description}
             </Text>
-            <Text>{typeof job.longitude}</Text>
           </View>
 
-          {/* <View style={styles.gap} /> */}
+          <Map job={job} />
+          <View style={styles.gap} />
         </View>
-        <Map job={job} />
       </ScrollView>
 
 
       <View style={styles.footerContainer}>
-        <View style={styles.textContainer}>
+        <View style={styles.durationContainer}>
           <Text style={styles.duration} > {job.duration}</Text>
         </View>
         <View style={styles.buttonContainer}>
           <Buttons label="Apply" style={styles.button} title='Register' onPress={() => {
             updateUser(currentUser, job.title)
-            console.log(job.title, currentUser)
           }
           } />
         </View>
@@ -138,6 +136,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#ebebeb',
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
+
   },
   duration: {
     fontSize: 30
@@ -145,19 +145,24 @@ const styles = StyleSheet.create({
   picture: {
     height: 150,
     width: 150,
-    borderWidth: 3
+
+  },
+  durationContainer: {
+
+    width: '50%',
   },
   gap: {
     height: 400,
     backgroundColor: '#0000',
   },
   jobImage: {
-    borderWidth: 2,
+
     borderRadius: 2,
   },
   titleContainer: {
-    borderWidth: 4,
+
     width: '100%',
+    alignItems: 'center',
   },
   title: {
     fontSize: 25,
@@ -178,13 +183,14 @@ const styles = StyleSheet.create({
   },
 
   footerContainer: {
-    top: -70,
+    top: -125,
     width: '100%',
     flexDirection: 'row',
-    borderWidth: 2,
+    borderTopWidth: 2,
+    borderColor: '#e6e6e6',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 30,
+    padding: 30,
     paddingTop: 10,
     backgroundColor: '#fff'
   },
@@ -196,7 +202,10 @@ const styles = StyleSheet.create({
   },
 
   textContainer: {
-    width: 200
+    width: 200,
+    alignItems: 'flex-start',
+    width: '100%',
+    padding: 30
   },
   user: {
     textDecorationLine: 'underline',

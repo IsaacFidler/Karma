@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {useState, useEffect} from 'react';
-import {View, Text, ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, FlatList, ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import Jobs from '../components/Jobs'
 import {_View} from 'react-native';
 import {urlJobs} from '../components/utils';
 import Header from '../components/Header'
-
+import Header2 from '../components/Header2'
 
 //for image retireval the jobs part is not required
 
@@ -35,6 +35,19 @@ const homeScreen = (props) => {
     }
   }
 
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      console.log('Screen is focused');
+      fetchApi()
+
+      // The screen is focused
+      // Call any action
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, []);
+
   useEffect(() => {
     fetchApi();
   }, [jobs]);
@@ -42,6 +55,7 @@ const homeScreen = (props) => {
   //map through all job listing in database and show on homepage
   return (
     <View>
+      <Header2></Header2>
       <Header></Header>
       <View>
         <ScrollView style={styles.page}>

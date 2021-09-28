@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  View, Text, Image, StyleSheet, ScrollView, TouchableOpacity
+  View, Text, Image, StyleSheet, FlatList, ScrollView, TouchableOpacity
 } from 'react-native';
 import Buttons from '../components/Buttons';
 import {AuthContext} from '../components/utils';
@@ -12,6 +12,8 @@ const filePath = '../assets/stock.png';
 import Jobs from '../components/Jobs';
 import MapView from 'react-native-maps';
 import {Marker} from 'react-native-maps';
+import Header from '../components/Header'
+import Header2 from '../components/Header2'
 const profileScreen = (props) => {
   const [user1, setUser1] = useState({})
   const [myJobs, setMyJobs] = useState({})
@@ -19,9 +21,7 @@ const profileScreen = (props) => {
   const navigation = props.navigation
   const {signOut} = React.useContext(AuthContext);
   const user = props.route.params.params
-  console.log('&&&&&&&&&&&')
-  // console.log(props.route.params.params)
-  console.log('&&&&&&&&&&&')
+
   const pressHandler = (id) => {
     navigation.navigate('JobDetail', {
       id: id,
@@ -29,9 +29,6 @@ const profileScreen = (props) => {
     })
 
   }
-
-
-
 
   const findUser = async (username) => {
     try
@@ -72,7 +69,6 @@ const profileScreen = (props) => {
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      console.log('Screen is focused');
       findUser(user)
       fetchJobs()
       // The screen is focused
@@ -102,6 +98,8 @@ const profileScreen = (props) => {
 
   return (
     <View style={styles.container}>
+      <Header />
+      <Header2 />
       <ScrollView contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignItems: 'center'}}>
         <View style={styles.titleContainer}>
           <View style={styles.picture}>
@@ -145,9 +143,9 @@ const profileScreen = (props) => {
               }
               <View style={styles.gap} />
             </View>
+            <View style={styles.gap} />
           </ScrollView>
         </View>
-        <View style={styles.gap} />
       </ScrollView>
     </View>
   );
@@ -158,7 +156,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#6354E4',
+    backgroundColor: '#ddd9ff',
     width: '100%',
     height: '100%'
   },
@@ -171,7 +169,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-
 
   title: {
     alignItems: 'center',
@@ -186,7 +183,7 @@ const styles = StyleSheet.create({
   },
   gap: {
     height: 100,
-    backgroundColor: '#6354E4',
+    backgroundColor: '#ddd9ff',
   },
 
   button: {
@@ -206,12 +203,14 @@ const styles = StyleSheet.create({
   picture: {
     width: 150,
     height: 150,
-    marginLeft: 100,
+    marginBottom: 50,
+    marginTop: 50,
   },
 
   jobsContainer: {
     flexDirection: 'column',
-    width: 410,
+    width: '100%',
+
     backgroundColor: '#ebebeb'
   },
 

@@ -69,46 +69,50 @@ export default SignIn = ({navigation}) => {
 
       <Image
         style={styles.topLogo}
-        source={require('../assets/banner.png')}
+        source={require('../assets/mainlogo.png')}
       />
-      <Text style={styles.welcome}>Welcome Back!</Text>
-      {
-        correctDetails == false
-          ? <Text style={styles.enterDetails}>Enter Details</Text>
-          : <Text style={styles.wrongDetails}>Wrong Username/Password</Text>
-      }
-      <View>
-        <TextInput
-          placeholder="Username"
-          value={username}
-          onChangeText={setUsername}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-          style={styles.input}
-        />
+      <View style={styles.textContainer}>
+        <View style={styles.welcomeContainer}>
+          <Text style={styles.welcome}>Welcome Back!</Text>
+          {
+            correctDetails == false
+              ? <Text style={styles.enterDetails}>Enter Details</Text>
+              : <Text style={styles.wrongDetails}>Wrong Username/Password</Text>
+          }
+        </View>
+        <View>
+          <TextInput
+            placeholder="Username"
+            value={username}
+            onChangeText={setUsername}
+            style={styles.input}
+          />
+          <TextInput
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            style={styles.input}
+          />
 
-        {/* <Buttons label="LOGIN" style={styles.button} title='LOGIN' onPress={} /> */}
-        <Buttons
-          label="LOGIN"
-          title="Sign in"
-          onPress={onSubmit}
-          style={styles.button}
-        />
+          {/* <Buttons label="LOGIN" style={styles.button} title='LOGIN' onPress={} /> */}
+          <Buttons
+            label="LOGIN"
+            title="Sign in"
+            onPress={onSubmit}
+            style={styles.button}
+          />
 
-      </View>
-      <View>
-        <Button
-          title="Create Account"
-          onPress={() => {
-            console.log('create account');
-            navigation.navigate('CreateAccount');
-          }}
-        />
+        </View>
+        <View>
+          <Button
+            title="Create Account"
+            onPress={() => {
+              console.log('create account');
+              navigation.navigate('CreateAccount');
+            }}
+          />
+        </View>
       </View>
     </View>
   );
@@ -119,7 +123,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#fff',
+  },
+  textContainer: {
+    borderRadius: 4,
     backgroundColor: '#ebebeb',
+    height: 400,
+    width: 350,
+    top: 0,
+    alignItems: 'center',
   },
   input: {
     alignItems: 'center',
@@ -129,7 +141,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     backgroundColor: 'white',
     marginBottom: 30,
-
   },
 
   inputContainer: {
@@ -153,19 +164,42 @@ const styles = StyleSheet.create({
     elevation: 3,
     backgroundColor: '#6354E4',
   },
-  welcome: {
-    top: -50,
-  },
-  topLogo: {
-    top: -200,
-  },
-  enterDetails: {
 
+  welcome: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    top: 40
+  },
+
+  topLogo: {
+    top: -50,
+    height: 110,
+    width: 300
+  },
+
+  enterDetails: {
     paddingBottom: 40,
+  },
+
+  wrongDetails: {
+    color: '#ff4117',
+    paddingBottom: 40,
+    top: 10
+  },
+  wrongDetails: {
+    color: '#ff4117',
+    paddingBottom: 40,
+    top: 10,
   },
   wrongDetails: {
     color: '#ff4117',
     paddingBottom: 40,
   },
+
+  welcomeContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
   error: {textAlign: 'center', height: 17.5},
 });

@@ -1,4 +1,6 @@
 import React from 'react';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+
 import {createStackNavigator} from '@react-navigation/stack';
 import {AsyncStorage} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
@@ -13,6 +15,13 @@ const AuthStack = createStackNavigator();
 const StackAuth = createStackNavigator();
 let uss = ''
 function StackAuth2 () {
+
+  // React.useEffect(() => {
+  //   setTimeout(() => {
+  //     setIsLoading(!isLoading);
+  //   }, 800)
+  // }, [])
+
   return (
     <StackAuth.Navigator
       initialRouteName="SignIn"
@@ -103,7 +112,7 @@ export default function AuthStackScreen ({navigation}) {
   // //stack for login / create account pages.
   // const AuthStackScreen = ({navigation}) => (
   return (
-    <AuthContext.Provider value={authContext}>
+    <AuthContext.Provider value={authContext} style={styles.background}>
       <NavigationContainer screenoptions={{headerShown: false}}>
         <AuthStack.Navigator>
           {state.isLoading ? (
@@ -150,5 +159,14 @@ export default function AuthStackScreen ({navigation}) {
     </AuthContext.Provider>
   );
 }
+
+const styles = StyleSheet.create({
+  background: {
+    backgroundColor: '#ddd9ff'
+  },
+  headerStyle: {
+    backgroundColor: '#000'
+  }
+})
 
 // export default AuthStackScreen

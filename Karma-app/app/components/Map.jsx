@@ -5,13 +5,12 @@ import {StyleSheet, Text, View, Dimensions} from 'react-native';
 import {useState, useEffect} from 'react';
 
 const Map = (props) => {
-  console.log(props)
   return (
     < View style={styles.container} >
       <View style={styles.page}>
 
         {
-          props.job.lat ? <Text> no events </Text> :
+          props.job.latitude === undefined ? <Text> no events </Text> :
             <MapView
               style={styles.map}
               initialRegion={{
@@ -24,14 +23,10 @@ const Map = (props) => {
               <Marker
                 coordinate={{latitude: props.job.latitude, longitude: props.job.longitude}}
               />
-
             </MapView>
         }
         <View style={styles.gap} />
-
       </View>
-
-
     </View >
   );
 }
@@ -48,6 +43,7 @@ const styles = StyleSheet.create({
   map: {
     width: 300,
     height: 300,
+    borderRadius: 4
   },
 });
 

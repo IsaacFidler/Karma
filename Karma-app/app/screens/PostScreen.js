@@ -7,6 +7,8 @@ import axios from 'axios';
 import ImagePicker from '../components/ImagePicker';
 import {urlJobs} from '../components/utils'
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import Header from '../components/Header'
+import Header2 from '../components/Header2'
 const API_KEY = 'AIzaSyDwJRsrQCpB8YuYrwIW8pp4dP61P0JLpCk'
 let loc = ''
 // let long = 0
@@ -52,9 +54,7 @@ const postScreen = (props) => {
     async function createT (data1, imgData1, tagArray1, user1, location2, lat2, long2) {
       try
       {
-        console.log(lat2)
-        console.log(long2)
-        console.log(location2)
+        console.log(typeof lat2)
         const filename = imgData1.split('/').pop();
         // Infer the type of the image
         const match = /\.(\w+)$/.exec(filename);
@@ -99,6 +99,8 @@ const postScreen = (props) => {
 
   return (
     <View style={styles.container}>
+      <Header2 style={styles.header1} />
+      <Header />
       {/* image picker component for form to create new job listing */}
       <View style={styles.googleContainer}>
         <GooglePlacesAutocomplete
@@ -113,8 +115,8 @@ const postScreen = (props) => {
             // setLocation(data.description)
             loc = data.description
             setRegion({
-              latitude: (details.geometry.location.lat).toString(),
-              longitude: (details.geometry.location.lng).toString(),
+              latitude: (details.geometry.location.lat),
+              longitude: (details.geometry.location.lng),
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
               location: data.description
@@ -147,13 +149,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#ebebeb',
-    top: 10,
   },
   googleContainer: {
-    marginTop: 50,
+    marginTop: 5,
     alignItems: 'center',
     borderWidth: 2,
-    height: 200,
+    height: 100,
     marginBottom: -90,
     width: 328
   },
@@ -163,9 +164,15 @@ const styles = StyleSheet.create({
     width: '100%',
     padding: 200,
 
-    // zIndex: 1,
-    // width: '100%'
-  }
+  },
+
+  // header1: {
+  //   backgroundColor: '#000',
+  //   position: 'absolute',
+  //   width: '100%',
+  //   padding: 200,
+  //   top: 100
+  // }
 
 });
 

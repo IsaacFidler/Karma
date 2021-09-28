@@ -5,8 +5,8 @@ const Schema = mongoose.Schema;
 const jobSchema = new Schema({
   title: String,
   'location': String,
-  'latitude': String,
-  'longitude': String,
+  'latitude': Number,
+  'longitude': Number,
   'startDate': String,
   'endDate': String,
   'duration': String,

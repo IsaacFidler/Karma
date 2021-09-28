@@ -65,7 +65,7 @@ router
       });
   })
   .post('/', upload.single('productImage'), (req, res, next) => {
-    console.log(req.body.latitude)
+    console.log(typeof req.body.latitude)
     console.log('helloooo')
     const product = new Job({
       title: req.body.title,
@@ -73,8 +73,8 @@ router
       startDate: req.body.startDate,
       endDate: req.body.endDate,
       location: req.body.location,
-      latitude: req.body.latitude,
-      longitude: req.body.longitude,
+      latitude: Number(req.body.latitude),
+      longitude: Number(req.body.longitude),
       duration: req.body.duration,
       description: req.body.description,
       productImage: req.file.path,

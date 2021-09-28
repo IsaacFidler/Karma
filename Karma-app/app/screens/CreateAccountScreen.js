@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {
-  View, Text, StyleSheet, Button, TextInput, Image, TouchableOpacity,
+  View, Text, StyleSheet, Button, TextInput, Image, ScrollView, TouchableOpacity,
 } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import * as ImagePicker from 'expo-image-picker';
@@ -87,71 +87,72 @@ export default CreateAccount = ({navigation}) => {
   // const onPress = (navigation) => navigation.push("CreateAccount");
   // pick image button and form for new job listing
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={styles.container}>
 
-      <Button
-        title="< Back"
-        onPress={() => {
-          console.log('create account');
-          navigation.navigate('SignIn');
-        }}
-        style={styles.button}
-      />
-
-      <View style={styles.backButtonContainer} />
-
-      <Text style={styles.welcome}>Welcome!</Text>
-      <View style={{alignItems: 'center', justifyContent: 'center'}}>
-        <Button title="Pick an image from camera roll" onPress={pickImage} />
-        {image && <Image source={{uri: image}} style={{width: 200, height: 200}} />}
-      </View>
-
-      <Image
-        style={styles.topLogo}
-        source={require('../assets/banner.png')}
-      />
-      <View>
-        <TextInput
-          style={styles.input}
-          placeholder="USERNAME"
-          value={username}
-          onChangeText={setUsername}
-        />
-
-        <TextInput
-          placeholder="PASSWORD"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-          style={styles.input}
-        />
-
-        <TextInput
-          placeholder="LOCATION"
-          value={location}
-          onChangeText={setLocation}
-          style={styles.input}
-        />
-
-        <TextInput
-          placeholder="ABOUT ME"
-          value={aboutMe}
-          onChangeText={setAboutMe}
-          style={styles.input}
-        />
-
-        <Buttons
-          label="REGISTER"
-          style={styles.button}
-          title="Register"
+        <Button
+          title="< Back"
           onPress={() => {
-            createUser(username, password, location, aboutMe, image);
-            console.log('New User Created 😱 😱 😱 😱');
-            signIn({username, password});
+            console.log('create account');
+            navigation.navigate('SignIn');
           }}
+          style={styles.button}
         />
+
+        <View style={styles.backButtonContainer} />
+
+        <Text style={styles.welcome}>Welcome!</Text>
+        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+          <Button title="Pick an image from camera roll" onPress={pickImage} />
+          {image && <Image source={{uri: image}} style={{width: 200, height: 200}} />}
+        </View>
+
+
+        <View>
+          <TextInput
+            style={styles.input}
+            placeholder="USERNAME"
+            value={username}
+            onChangeText={setUsername}
+          />
+
+          <TextInput
+            placeholder="PASSWORD"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            style={styles.input}
+          />
+
+          <TextInput
+            placeholder="LOCATION"
+            value={location}
+            onChangeText={setLocation}
+            style={styles.input}
+          />
+
+          <TextInput
+            placeholder="ABOUT ME"
+            value={aboutMe}
+            onChangeText={setAboutMe}
+            style={styles.input}
+          />
+
+          <Buttons
+            label="REGISTER"
+            style={styles.button}
+            title="Register"
+            onPress={() => {
+              createUser(username, password, location, aboutMe, image);
+              console.log('New User Created 😱 😱 😱 😱');
+              signIn({username, password});
+            }}
+          />
+        </View>
       </View>
-    </View>
+      <View style={styles.gap} />
+
+    </ScrollView>
   );
 };
 
@@ -161,6 +162,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#ebebeb',
+    width: '100%'
   },
   input: {
     alignItems: 'center',
@@ -202,7 +204,7 @@ const styles = StyleSheet.create({
   backButtonContainer: {
     width: 70,
     left: -150,
-    top: -50,
+    top: -40,
 
   },
   inputContainer: {
@@ -221,6 +223,9 @@ const styles = StyleSheet.create({
   },
   topLogo: {
     top: -200,
+  },
+  gap: {
+    height: 300,
   },
   error: {textAlign: 'center', height: 17.5},
 });

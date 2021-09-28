@@ -33,8 +33,14 @@ function App () {
     //     <AuthStackScreen />
     //   )}
     // </NavigationContainer >
-    <AuthStackScreen />
+    <AuthStackScreen style={styles.background} />
   );
 }
 
+const styles = StyleSheet.create({
+  background: {
+    backgroundColor: '#ddd9ff'
+  }
+
+})
 export default App;

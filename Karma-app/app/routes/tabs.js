@@ -41,6 +41,7 @@ const Tabs = (props) => {
 
     //Section handles icon highlighting depending on currently selected section.
     <Tab.Navigator
+      style={styles.background}
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
@@ -89,11 +90,12 @@ const Tabs = (props) => {
       })}
     >
 
-
       <Tab.Screen name="Home" component={HomeScreen}
 
         initialParams={props.route} />
-      <Tab.Screen name="Search" component={SearchScreen} />
+      <Tab.Screen name="Search" component={SearchScreen}
+
+        initialParams={props.route} />
       <Tab.Screen name="Post" component={PostScreen}
 
         options={{
@@ -137,6 +139,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.5,
     elevation: 5
+  },
+  background: {
+    backgroundColor: '#ddd9ff'
   }
 });
 
