@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   AsyncStorage, View, Text, StyleSheet, Button, TextInput, Image, TouchableOpacity, TextInputComponent,
 } from 'react-native';
-import { useForm, Controller } from 'react-hook-form';
+import {useForm, Controller} from 'react-hook-form';
 import axios from 'axios';
 import Buttons from '../components/Buttons';
+import {urlUser} from '../components/utils'
+import {AuthContext} from '../components/utils';
 
-import { AuthContext } from '../components/utils';
-// const url = 'http://192.168.0.6:3005/jobs/user';
-const url = 'http://10.10.22.243:3005/jobs/user';
 // just dummy sign in atm
-export default SignIn = ({ navigation }) => {
-  const { control, handleSubmit, formState: { errors } } = useForm();
+export default SignIn = ({navigation}) => {
+  const {control, handleSubmit, formState: {errors}} = useForm();
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [allUsernames, setAllUsernames] = React.useState({});
@@ -21,27 +20,34 @@ export default SignIn = ({ navigation }) => {
 
   //checking the user already exists.
   const onSubmit = () => {
-    if (allUsernames.includes(username)) {
-      if (allPasswords.includes(password)) {
-        signIn({ username, password });
-      } else if (allPasswords.includes(password) == undefined) {
+    if (allUsernames.includes(username))
+    {
+      if (allPasswords.includes(password))
+      {
+        signIn({username, password});
+      } else if (allPasswords.includes(password) == undefined)
+      {
         setCorrectDetails(true);
-      } else {
+      } else
+      {
         setCorrectDetails(true);
       }
-    } else {
+    } else
+    {
       setCorrectDetails(true);
     }
   };
 
   const fetchUsers = async () => {
-    try {
-      const res = await axios.get(url);
+    try
+    {
+      const res = await axios.get(urlUser);
       const usernames = [];
       const passwords = [];
 
       const data = Object.values(res.data);
-      for (const i of data) {
+      for (const i of data)
+      {
         usernames.push(i.username);
         passwords.push(i.password);
       }
@@ -49,7 +55,8 @@ export default SignIn = ({ navigation }) => {
       setAllPasswords(passwords);
       console.log(usernames);
       console.log(passwords);
-    } catch (error) {
+    } catch (error)
+    {
       console.log(error);
     }
   };
@@ -160,5 +167,5 @@ const styles = StyleSheet.create({
     color: '#ff4117',
     paddingBottom: 40,
   },
-  error: { textAlign: 'center', height: 17.5 },
+  error: {textAlign: 'center', height: 17.5},
 });

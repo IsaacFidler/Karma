@@ -36,8 +36,7 @@ const CustomTabBarButton = ({children, onPress}) => (
 )
 
 
-const Tabs = (props, {route}) => {
-  console.log(props)
+const Tabs = (props) => {
   return (
 
     //Section handles icon highlighting depending on currently selected section.

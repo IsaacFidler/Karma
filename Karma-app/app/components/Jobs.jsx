@@ -2,18 +2,20 @@ import React, {Component} from 'react';
 import {
   View, Text, ScrollView, FlatList, StyleSheet, Image, TouchableOpacity,
 } from 'react-native';
-
+import {url} from './utils'
 const filePath = '../assets/stock.png';
-// const url = 'http://10.10.22.67:3005/';
-// const url = 'http://192.168.0.6:3005/';
-const url = 'http://10.10.22.243:3005/';
+import {useState, useEffect} from 'react';
+
 
 const Jobs = (props, {navigation}) => {
   const tags = [];
   const pressHandler = (id) => {
     navigation.push('JobDetail');
   };
-
+  useEffect(() => {
+    console.log(console.log(url + props.myState.productImage))
+  }, []);
+  // console.log(url + props.myState.productImage)
   return (
     <View style={styles.container} onPress={() => pressHandler(props.myState._id)}>
 
@@ -76,6 +78,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     height: 200,
+    width: 375,
+    backgroundColor: '#ebebeb'
   },
 
   picture: {
@@ -113,6 +117,7 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 20,
+    marginBottom: 10
   },
 });
 

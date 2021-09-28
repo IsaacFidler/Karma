@@ -6,8 +6,7 @@ import {useForm, Controller} from 'react-hook-form';
 import * as ImagePicker from 'expo-image-picker';
 import Buttons from '../components/Buttons';
 import {AuthContext} from '../components/utils';
-// const url = 'http://192.168.0.6:3005/jobs/users';
-const url = 'http://10.10.22.243:3005/jobs/user';
+import {urlUser} from '../components/utils';
 
 export default CreateAccount = ({navigation}) => {
   const [image, setImage] = useState(null);
@@ -38,7 +37,7 @@ export default CreateAccount = ({navigation}) => {
         formData.append('jobsApplied', '');
         formData.append('jobsSaved', '');
 
-        const response = await fetch(url, {
+        const response = await fetch(urlUser, {
           method: 'POST',
           body: formData,
           headers: {
@@ -100,6 +99,7 @@ export default CreateAccount = ({navigation}) => {
       />
 
       <View style={styles.backButtonContainer} />
+
       <Text style={styles.welcome}>Welcome!</Text>
       <View style={{alignItems: 'center', justifyContent: 'center'}}>
         <Button title="Pick an image from camera roll" onPress={pickImage} />

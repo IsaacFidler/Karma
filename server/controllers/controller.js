@@ -61,7 +61,8 @@ exports.getDetailUser = async (req, res) => {
 
 exports.appliedforJobs = async (req, res) => {
   let user = req.params.username
-  console.log()
+
+  console.log('Applied!')
   try
   {
     const users = await User.find({"username": user})

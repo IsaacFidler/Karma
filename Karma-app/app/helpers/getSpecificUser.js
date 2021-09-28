@@ -1,5 +1,5 @@
-const url = 'https://10.10.22.243:3005/jobs/user';
 import {useState, useEffect} from 'react';
+import {urlUser} from '../components/utils'
 import axios from 'axios';
 
 
@@ -8,7 +8,7 @@ const findUser = async (username) => {
 
   try
   {
-    const res = await axios.get(url + username)
+    const res = await axios.get(urlUser + username)
     let ans = []
 
     let data = Object.values(res.data)

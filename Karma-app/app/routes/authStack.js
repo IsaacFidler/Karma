@@ -139,7 +139,11 @@ export default function AuthStackScreen ({navigation}) {
             initialParams={'hello'}
             name="JobDetail"
             component={JobDetail}
-            options={{title: 'Job Detail'}}
+            options={{
+              title: 'Job Detail',
+
+
+            }}
           />
         </AuthStack.Navigator>
       </NavigationContainer>

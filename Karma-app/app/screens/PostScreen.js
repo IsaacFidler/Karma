@@ -5,21 +5,19 @@ import {
 import {useForm, Controller} from 'react-hook-form';
 import axios from 'axios';
 import ImagePicker from '../components/ImagePicker';
-
-const url = 'http://10.10.22.243:3005/jobs';
-// const url = 'http://192.168.0.6:3005/jobs';
-
+import {urlJobs} from '../components/utils'
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+const API_KEY = 'AIzaSyDwJRsrQCpB8YuYrwIW8pp4dP61P0JLpCk'
+let loc = ''
 const postScreen = (props) => {
   const [jobs, setJobs] = useState([]);
   const [user2, setUser2] = useState('');
-  // useEffect(() => {
-  //   fetchUsername()
-  // }, []);
-  // const user = props.route.params.params
+  const [location, setLocation] = useState('');
+
   const fetchApi = async () => {
     try
     {
-      const res = await axios.get(url);
+      const res = await axios.get(urlJobs);
       const ans = [];
 
       const data = Object.values(res.data);
@@ -35,11 +33,12 @@ const postScreen = (props) => {
   };
 
   // post new job to the database.
-  function createJob (data, imgData, tagArray, user) {
-    async function createT (data1, imgData1, tagArray1, user1) {
+  function createJob (data, imgData, tagArray, user, locations) {
+    // console.log(loc)
+    async function createT (data1, imgData1, tagArray1, user1, location1) {
       try
       {
-        console.log(user1)
+        console.log(location1)
         const filename = imgData1.split('/').pop();
         // Infer the type of the image
         const match = /\.(\w+)$/.exec(filename);
@@ -51,7 +50,7 @@ const postScreen = (props) => {
         // "productImage" is the name of the form field the server expects
         formData.append('productImage', {uri: imgData1, name: filename, type});
         formData.append('title', data1.title);
-        formData.append('location', data1.location);
+        formData.append('location', location1);
         formData.append('startDate', data1.startDate);
         formData.append('endDate', data1.endDate);
         formData.append('duration', data1.duration);
@@ -59,8 +58,7 @@ const postScreen = (props) => {
         formData.append('createdBy', user1);
         formData.append('tags', tagArray1.join());
 
-        // console.log('asdf   ' + Object.keys(formData))
-        const response = await fetch(url, {
+        const response = await fetch(urlJobs, {
           method: 'POST',
           body: formData,
           headers: {
@@ -78,15 +76,33 @@ const postScreen = (props) => {
       }
     }
 
-    createT(data, imgData, tagArray, props.route.params.route.params);
+    createT(data, imgData, tagArray, props.route.params.route.params, loc);
   }
 
   return (
     <View style={styles.container}>
-      <ScrollView>
-        {/* image picker component for form to create new job listing */}
-        <ImagePicker onSubmit={createJob} />
-      </ScrollView>
+      {/* image picker component for form to create new job listing */}
+      <View style={styles.googleContainer}>
+        <GooglePlacesAutocomplete
+
+          placeholder='LOCATION'
+          onPress={(data, details = null) => {
+            // 'details' is provided when fetchDetails = true
+            setLocation(data.description)
+            loc = data.description
+            console.log(loc)
+
+          }}
+          query={{
+            key: API_KEY,
+            language: 'en',
+          }}
+          styles={{
+            container: {flex: 0, position: 'absolute', width: '100%', zIndex: 1}
+          }}
+        />
+      </View>
+      <ImagePicker onSubmit={createJob} />
     </View>
   );
 };
@@ -99,6 +115,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#ebebeb',
     top: 10,
   },
+  googleContainer: {
+    marginTop: 50,
+    alignItems: 'center',
+    borderWidth: 2,
+    height: 200,
+    marginBottom: -90,
+    width: 328
+  },
+  search: {
+    backgroundColor: '#000',
+    position: 'absolute',
+    width: '100%',
+    padding: 200,
+
+    // zIndex: 1,
+    // width: '100%'
+  }
+
 });
 
 export default postScreen;

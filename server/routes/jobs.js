@@ -27,7 +27,6 @@ router
   .get('/user/:username', controller.getDetailUser)
   .put('/user/:username', controller.appliedforJobs)
   .post('/user', upload.single('userImage'), (req, res, next) => {
-    console.log(req.body)
     const product = new User({
       username: req.body.username,
       password: req.body.password,
