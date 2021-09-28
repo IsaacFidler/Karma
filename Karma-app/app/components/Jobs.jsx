@@ -4,17 +4,12 @@ import {
 } from 'react-native';
 import {url} from './utils'
 const filePath = '../assets/stock.png';
-import {useState, useEffect} from 'react';
-
 
 const Jobs = (props, {navigation}) => {
   const tags = [];
   const pressHandler = (id) => {
     navigation.push('JobDetail');
   };
-  useEffect(() => {
-    console.log(console.log(url + props.myState.productImage))
-  }, []);
   // console.log(url + props.myState.productImage)
   return (
     <View style={styles.container} onPress={() => pressHandler(props.myState._id)}>

@@ -40,7 +40,6 @@ router
     product
       .save()
       .then(result => {
-
         res.status(201).json({
           message: "Created product successfully",
           createdProduct: {
@@ -66,12 +65,16 @@ router
       });
   })
   .post('/', upload.single('productImage'), (req, res, next) => {
+    console.log(req.body.latitude)
+    console.log('helloooo')
     const product = new Job({
       title: req.body.title,
       location: req.body.location,
       startDate: req.body.startDate,
       endDate: req.body.endDate,
       location: req.body.location,
+      latitude: req.body.latitude,
+      longitude: req.body.longitude,
       duration: req.body.duration,
       description: req.body.description,
       productImage: req.file.path,
@@ -87,6 +90,8 @@ router
           createdProduct: {
             title: result.title,
             location: result.location,
+            latitude: result.latitude,
+            longitude: result.longitude,
             startDate: result.startDate,
             endDate: result.endDate,
             duration: result.duration,

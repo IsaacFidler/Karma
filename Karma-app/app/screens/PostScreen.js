@@ -9,10 +9,24 @@ import {urlJobs} from '../components/utils'
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 const API_KEY = 'AIzaSyDwJRsrQCpB8YuYrwIW8pp4dP61P0JLpCk'
 let loc = ''
+// let long = 0
+// let lat = 0
+const latD = 0.0922
+const longD = 0.0421
+
+let region = {}
 const postScreen = (props) => {
   const [jobs, setJobs] = useState([]);
   const [user2, setUser2] = useState('');
   const [location, setLocation] = useState('');
+  const [lat, setLat] = useState('');
+  const [long, setLong] = useState('');
+  const [region, setRegion] = React.useState({
+    latitude: 37.78825,
+    longitude: -122.4324,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421
+  })
 
   const fetchApi = async () => {
     try
@@ -33,12 +47,14 @@ const postScreen = (props) => {
   };
 
   // post new job to the database.
-  function createJob (data, imgData, tagArray, user, locations) {
-    // console.log(loc)
-    async function createT (data1, imgData1, tagArray1, user1, location1) {
+  function createJob (data, imgData, tagArray, user, location, lat1, long1) {
+
+    async function createT (data1, imgData1, tagArray1, user1, location2, lat2, long2) {
       try
       {
-        console.log(location1)
+        console.log(lat2)
+        console.log(long2)
+        console.log(location2)
         const filename = imgData1.split('/').pop();
         // Infer the type of the image
         const match = /\.(\w+)$/.exec(filename);
@@ -50,7 +66,9 @@ const postScreen = (props) => {
         // "productImage" is the name of the form field the server expects
         formData.append('productImage', {uri: imgData1, name: filename, type});
         formData.append('title', data1.title);
-        formData.append('location', location1);
+        formData.append('location', location2);
+        formData.append('latitude', lat2);
+        formData.append('longitude', long2);
         formData.append('startDate', data1.startDate);
         formData.append('endDate', data1.endDate);
         formData.append('duration', data1.duration);
@@ -76,7 +94,7 @@ const postScreen = (props) => {
       }
     }
 
-    createT(data, imgData, tagArray, props.route.params.route.params, loc);
+    createT(data, imgData, tagArray, props.route.params.route.params, loc, lat, long);
   }
 
   return (
@@ -86,11 +104,27 @@ const postScreen = (props) => {
         <GooglePlacesAutocomplete
 
           placeholder='LOCATION'
+          fetchDetails={true}
+          GooglePlacesSearchQuery={{
+            rankby: "distance"
+          }}
           onPress={(data, details = null) => {
             // 'details' is provided when fetchDetails = true
-            setLocation(data.description)
+            // setLocation(data.description)
             loc = data.description
-            console.log(loc)
+            setRegion({
+              latitude: (details.geometry.location.lat).toString(),
+              longitude: (details.geometry.location.lng).toString(),
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+              location: data.description
+            })
+
+            loc = data.description
+            setLat(details.geometry.location.lat)
+            setLong(details.geometry.location.lng)
+            console.log(lat)
+            console.log(long)
 
           }}
           query={{

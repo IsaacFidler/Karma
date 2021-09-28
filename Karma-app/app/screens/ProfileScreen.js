@@ -10,7 +10,8 @@ import {url, urlJobs, urlUser} from '../components/utils'
 import axios from 'axios';
 const filePath = '../assets/stock.png';
 import Jobs from '../components/Jobs';
-
+import MapView from 'react-native-maps';
+import {Marker} from 'react-native-maps';
 const profileScreen = (props) => {
   const [user1, setUser1] = useState({})
   const [myJobs, setMyJobs] = useState({})

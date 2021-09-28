@@ -6,6 +6,8 @@ import {url, urlJobs, urlUser} from '../components/utils'
 const filePath = '../assets/stock.png'
 import ApplyBanner from '../components/ApplyBanner';
 import Buttons from '../components/Buttons';
+import Map from '../components/Map'
+import Header from '../components/Header'
 
 let ans = [];
 
@@ -69,9 +71,9 @@ const JobDetail = (props) => {
   console.log(url + job.productImage)
   return (
     <View>
+      <Header />
       <ScrollView contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignItems: 'center'}}>
         <View style={styles.container}>
-          <Text>{url + job.productImage}</Text>
           <View style={styles.picture}>
             {
               job.productImage == undefined ?
@@ -94,7 +96,7 @@ const JobDetail = (props) => {
             <Text style={styles.text}>
               {job.location}
             </Text>
-            <Text style={styles.text}>
+            <Text style={styles.user}>
               {job.createdBy}
             </Text>
 
@@ -104,11 +106,15 @@ const JobDetail = (props) => {
             <Text style={styles.text}>
               {job.description}
             </Text>
+            <Text>{typeof job.longitude}</Text>
           </View>
 
-          <View style={styles.gap} />
+          {/* <View style={styles.gap} /> */}
         </View>
+        <Map job={job} />
       </ScrollView>
+
+
       <View style={styles.footerContainer}>
         <View style={styles.textContainer}>
           <Text style={styles.duration} > {job.duration}</Text>
@@ -170,6 +176,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: 100
   },
+
   footerContainer: {
     top: -70,
     width: '100%',
@@ -178,9 +185,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: 30,
-    paddingTop: 10
-
+    paddingTop: 10,
+    backgroundColor: '#fff'
   },
+
   jobImageSmall: {
     borderRadius: 4,
     width: 150,
@@ -189,6 +197,9 @@ const styles = StyleSheet.create({
 
   textContainer: {
     width: 200
+  },
+  user: {
+    textDecorationLine: 'underline',
   }
 })
 
